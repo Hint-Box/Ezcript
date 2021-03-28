@@ -33,7 +33,8 @@ class Lexer:
             token = Token(TokenType.MINUS, self._character, self._line)
         # Token '*'
         elif match(r"^\*$", self._character):
-            token = Token(TokenType.MULTIPLICATION, self._character, self._line)
+            token = Token(TokenType.MULTIPLICATION, self._character,
+                          self._line)
         # Token '/'
         elif match(r"^\/$", self._character):
             if self._peek_character() == "/":
@@ -69,6 +70,9 @@ class Lexer:
         # Token '.'
         elif match(r"^\.$", self._character):
             token = Token(TokenType.DOT, self._character, self._line)
+        # Token ':0
+        elif match(r"^:$", self._character):
+            token = Token(TokenType.COLON, self._character, self._line)
         # Token '<'
         elif match(r"^<$", self._character):
             if self._peek_character() == "=":
@@ -146,10 +150,11 @@ class Lexer:
     def _read_identifier(self) -> str:
         initial_position = self._position
 
-        while self._is_letter(self._character) or self._is_number(self._character):
+        while self._is_letter(self._character) or self._is_number(
+                self._character):
             self._read_character()
 
-        return self._source[initial_position : self._position]
+        return self._source[initial_position:self._position]
 
     def _read_number(self) -> str:
         initial_position = self._position
@@ -157,7 +162,7 @@ class Lexer:
         while self._is_number(self._character):
             self._read_character()
 
-        return self._source[initial_position : self._position]
+        return self._source[initial_position:self._position]
 
     def _read_string(self) -> str:
         # Vemos en cual tipo de comilla está el caracter actual
@@ -172,11 +177,10 @@ class Lexer:
         # Segumos leyendo el string hasta que encontremos otra comilla o se
         # acabe el archivo
         while self._character != quote_type and self._read_position <= len(
-            self._source
-        ):
+                self._source):
             self._read_character()
 
-        string = self._source[initial_position : self._position]
+        string = self._source[initial_position:self._position]
 
         self._read_character()
 
@@ -186,11 +190,8 @@ class Lexer:
         if self._read_position >= len(self._source):
             return ""
 
-        return (
-            self._source[self._read_position]
-            if skip == 1
-            else self._source[self._read_position + (skip - 1)]
-        )
+        return (self._source[self._read_position] if skip == 1 else
+                self._source[self._read_position + (skip - 1)])
 
     def _skip_whitespace(self) -> None:
         while match(r"^\s$", self._character):

@@ -76,7 +76,7 @@ class TokenType(Enum):
     NOT_EQ = auto()  # !=
     DOT = auto()
     COMMA = auto()
-    TPOINTS = auto()  # :
+    COLON = auto()
     LARROW = auto()
     ILLEGAL = auto()
     COMMENTS = auto()  # //
