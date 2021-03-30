@@ -63,3 +63,7 @@ body {
 .types {
     color: #51F065;
 }
+
+.code-block {
+    margin-left: 2em;
+}
