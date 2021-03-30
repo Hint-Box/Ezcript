@@ -16,14 +16,14 @@
     </h1>
     <h1>Types</h1>
     <div class="code">
-      <p class="keyword">String</p>
-      <p class="keyword">Integer</p>
-      <p class="keyword">Float</p>
-      <p class="keyword">Boolean</p>
-      <p class="keyword">Array</p>
-      <p class="keyword">Object</p>
-      <p class="keyword">Tuple</p>
-      <p class="keyword">Null</p>
+      <p class="types">String</p>
+      <p class="types">Integer</p>
+      <p class="types">Float</p>
+      <p class="types">Boolean</p>
+      <p class="types">Array</p>
+      <p class="types">Object</p>
+      <p class="types">Tuple</p>
+      <p class="types">Null</p>
     </div>
     <h1>Strings</h1>
     <div class="code">
@@ -46,7 +46,7 @@
     </div>
     <h1>Objects</h1>
     <div class="code">
-      <p>{ <span class="object-identifier">hola</span><span class="operator">:</span> <span class="strings">"mundo"</span>, <span class="object-identifier">eso</span><span class="operator">:</span> <span class="strings">"brad"</span>, <span class="numbers">5</span><span class="operator">:</span> <span class="numbers">2</span>, <span class="strings">"abr"</span><span class="operator">:</span> true, <span class="object-identifier">array</span><span class="operator">:</span> [], <span class="object-identifier">object</span><span class="operator">:</span> [], <span class="object-identifier">tuple</span><span class="operator">:</span> [] }</p>
+      <p>{ <span class="object-identifier">hola</span><span class="operator">:</span> <span class="strings">"mundo"</span>, <span class="object-identifier">eso</span><span class="operator">:</span> <span class="strings">"brad"</span>, <span class="numbers">5</span><span class="operator">:</span> <span class="numbers">2</span>, <span class="strings">"abr"</span><span class="operator">:</span> <span class="booleans">true</span>, <span class="object-identifier">array</span><span class="operator">:</span> [], <span class="object-identifier">object</span><span class="operator">:</span> [], <span class="object-identifier">tuple</span><span class="operator">:</span> [] }</p>
     </div>
     <h1>Tuplas</h1>
     <div class="code">
@@ -65,14 +65,18 @@
       <p><span class="numbers">1</span> <span class="operator">+</span> <span class="numbers">1</span> <span class="comments">// devuelve 2</span><br />
       <span class="numbers">1</span> <span class="operator">-</span> <span class="numbers">1</span> <span class="comments">// devuelve 0</span><br />
       <span class="numbers">2</span> <span class="operator">*</span> <span class="numbers">2</span> <span class="comments">// devuelve 4</span><br />
-      <span class="numbers">4</span> <span class="operator">/</span> <span class="numbers">2</span> <span class="comments">// devuelve 2</span></p>
+      <span class="numbers">4</span> <span class="operator">/</span> <span class="numbers">2</span> <span class="comments">// devuelve 2</span><br />
+      <span class="operator">!-</span><span class="numbers">5</span> <span class="comments">// devuelve 5</span><br />
+      <span class="operator">!</span><span class="numbers">5</span> <span class="comments">// devuelve -5</span></p>
     </div>
     <h1>Operaciones con números flotantes</h1>
     <div class="code">
       <p><span class="numbers">1</span><span class="operator">.</span><span class="numbers">5</span> <span class="operator">+</span> <span class="numbers">1</span><span class="operator">.</span><span class="numbers">5</span> <span class="comments">// devuelve 3</span><br />
       <span class="numbers">1</span><span class="operator">.</span><span class="numbers">5</span><span class="operator"> - </span><span class="numbers">0</span><span class="operator">.</span><span class="numbers">5</span> <span class="comments">// devuelve 1.0</span><br />
       <span class="operator">.</span><span class="numbers">3</span> <span class="operator">*</span> <span class="numbers">2</span><span class="operator">.</span><span class="numbers">5</span> <span class="comments">// devuelve 0.75</span><br />
-      <span class="numbers">4</span><span class="operator">.</span><span class="numbers">1</span> <span class="operator">/</span> <span class="numbers">2</span><span class="operator">.</span><span class="numbers">33</span> <span class="comments">// devuelve 1.759656652</span></p>
+      <span class="numbers">4</span><span class="operator">.</span><span class="numbers">1</span> <span class="operator">/</span> <span class="numbers">2</span><span class="operator">.</span><span class="numbers">33</span> <span class="comments">// devuelve 1.759656652</span><br />
+      <span class="operator">!-</span><span class="numbers">5<span class="operator">.</span>5</span> <span class="comments">// devuelve 5.5</span><br />
+      <span class="operator">!</span><span class="numbers">5<span class="operator">.</span>5</span> <span class="comments">// devuelve -5.5</span></p>
     </div>
     <h1>Operaciones con booleanos</h1>
     <div class="code">
@@ -95,7 +99,7 @@
       valor</span><br />
       num <span class="operator">&#61;</span> <span class="numbers">34</span>
       <span class="comments">// Y luego puedes definirle el valor de esta forma</span><br />
-      <span class="keyword">set</span> num<span class="operator">:</span> <span class="type">Integer</span>
+      <span class="keyword">set</span> num<span class="operator">:</span> <span class="types">Integer</span>
       <span class="operator">&#61;</span> <span class="numbers">34</span>
       <span class="comments">// También puedes definir la variable con un tipo ya
         definido</span></p>
