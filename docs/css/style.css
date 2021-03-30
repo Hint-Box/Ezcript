@@ -32,6 +32,12 @@ body {
   padding-left: 2rem;
 }
 
+.syntax .code a {
+  padding-left: 2rem;
+  padding-top: 1rem;
+  display: block;
+}
+
 .comments {
   color: #8C8C8C;
 }
