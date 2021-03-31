@@ -159,13 +159,64 @@
       <span class="code-block"><span class="keyword">return</span> num1 <span class="operator">+</span> num2 <span class="comments">// Las funciones pueden o no pueden retornar algo</span></span><br />
       <span class="keyword">endfunc</span></p>
       <p><span class="comments">// Estas son funciones anonimas</span><br />
-      (<span class="arguments">num1</span>, <span class="arguments">num2</span>) <span class="keyword">then</span> <span class="comments">// También podrías guardarla en una variable de esta forma set var_name = () then ...</span><br />
+      (<span class="arguments">num1</span>, <span class="arguments">num2</span>) <span class="keyword">then</span> <span class="comments">// También podrías guardarla en una variable de esta forma "set var_name = () then ..."</span><br />
       <span class="code-block">...</span><br />
       <span class="keyword">endfunc</span>(<span class="numbers">3</span>, <span class="numbers">7</span>) <span class="comments">// Cuando no guardamos una función anónima en una variable debemos llamarla después de su definición poniendo "()" después de la palabra reservada "endfunc" y si la función recibe valores pasarselos en esos paréntesis</span></p>
       <p><span class="comments">// Así llamamos a una función después de ser definida</span><br />
       <span class="functions-types-classes">hola</span>() <span class="comments">// En el caso de que lleve argumentos se los ponemos</span></p>
       <p><span class="comments">// Así guardamos lo que retorna una función en una variable definida</span><br />
       <span class="keyword">set</span> var_name <span class="operator">&#61;</span> <span class="functions-types-classes">sum</span>(<span class="numbers">3</span>, <span class="numbers">7</span>)</p>
+    </div>
+    <h1>Clases</h1>
+    <div class="code">
+      <p><span class="keyword">class</span> <span class="functions-types-classes">Humano</span> <span class="keyword">then</span><br />
+      <span class="code-block">...</span> <span class="comments">// Puedes definir una clase y dejarla vacia con tres puntos como lo hacen otros lenguajes cuando haces un módulo y dejas una clase vacia para usarla después como clase del módulo y ponerle métodos</span><br />
+      <span class="keyword">endclass</span></p>
+      <p><span class="comments">// Podemos heredar clases en otra clase</span><br />
+      <span class="keyword">class</span> <span class="functions-types-classes">Humano</span> <span class="keyword">then</span><br />
+      <span class="code-block comments">// Los métodos de las clases son como las funciones normales. Y cada clase tiene un método por defecto que se llama "init" que se ejecutará cada vez que se instancie la clase. Además, los argumentos que reciba este método, son los que se le deben pasar a la clase cuando se la instancie</span><br />
+      <span class="code-block"><span class="keyword">makeFunc</span> <span class="functions-types-classes">init</span>(<span class="keyword">self</span>, <span class="arguments">nombre</span>, <span class="arguments">edad</span>) <span class="keyword">then</span></span><br />
+      <span class="code-block"><span class="code-block comments">// El argumento "self" sirve para referirse a la misma clase. O sea que si hacemos "self.nombre = nombre" estamos guardando una variable para que se pueda usar en otros métodos de la clase, por que si no tuviera el "self" solo funcionaría para el método donde está definido</span></span><br />
+      <span class="code-block"><span class="code-block"><span class="keyword">self</span><span class="operator">.</span>nombre <span class="operator">&#61;</span> nombre</span></span><br />
+      <span class="code-block"><span class="code-block"><span class="keyword">self</span><span class="operator">.</span>edad <span class="operator">&#61;</span> edad</span></span><br />
+      <span class="code-block"><span class="keyword">endfunc</span></span><br />
+      <br>
+      <span class="code-block"><span class="keyword">makeFunc</span> <span class="functions-types-classes">caminar</span>(<span class="keyword">self</span>) <span class="keyword">then</span></span><br />
+      <span class="code-block"><span class="code-block"><span class="keyword">return</span> <span class="strings">f"{<span class="keyword">self</span><span class="operator">.</span>nombre} está caminando"</span></span></span> <span class="comments">// Los metodos pueden o no retornar algún valor y así se formatean los strings y así se usan las variables de las clases en otros métodos que no es donde se definió</span><br />
+      <span class="code-block"><span class="keyword">endfunc</span></span><br />
+      <span class="keyword">endclass</span><br />
+      <br>
+      <span class="keyword">class</span> <span class="functions-types-classes">Trabajador</span> <span class="keyword">inherit</span> <span class="functions-types-classes">Humano</span> <span class="keyword">then</span> <span class="comments">// Y con la palabra reservada "inherit" heredas todo lo que está en la clase que hereda, tanto métodos como variables declaradas con "self"</span><br />
+      <span class="code-block">...</span><br />
+      <span class="keyword">endclass</span><br />
+      <br>
+      <span class="comments">// Intanciamos una clase de la siguiente manera</span><br />
+      <span class="keyword">set</span> enrique <span class="operator">&#61;</span> <span class="functions-types-classes">Humano</span>(<span class="strings">"Enrique"</span>, <span class="numbers">31</span>)<br />
+      <span class="comments">// Y podemos usar sus métodos así:</span><br />
+      enrique<span class="operator">.</span><span class="functions-types-classes">caminar()</span></span> <span class="comments">// El argumento "self" no se pasa cuando llamas a un método de clase, porque lo toma automaticamente de la clase instanciada</span></p>
+    </div>
+    <h1>Interfaces</h1>
+    <div class="code">
+      <p><span class="comments">// Las interfaces son básicamente una lista de acciones que la clase, o objeto que lo herede debe cumplir</span><br />
+      <span class="keyword">interface</span> <span class="functions-types-classes">IHumano</span> <span class="keyword">then</span> <span class="comments">// Los nombres de las intefaces suelen tener una "I" al principio del nombre, esto es solo por convención</span><br />
+      <span class="code-block"><span class="comments">// En las interfaces no haremos más que solo definir lo que van a necesitar las clases u objetos que la vayan a heredar, veamos un ejemplo</span></span><br />
+      <span class="code-block"><span class="object-identifier">nombre</span><span class="operator">:</span> <span class="functions-types-classes">String</span> <span class="comments">// Esto básicamente crea un objeto que su identificador va a ser "Humano" y lo que va a contener es { nombre: String } y el string se lo pasaremos cuando la heredemos en alguna clase</span></span><br />
+      <span class="code-block"><span class="object-identifier">edad</span><span class="operator">:</span></span> { <br />
+      <span class="code-block"><span class="code-block"><span class="object-identifier">type</span><span class="operator">:</span> <span class="functions-types-classes">Integer</span>,</span></span><br />
+      <span class="code-block"><span class="code-block"><span class="object-identifier">required</span><span class="operator">:</span> <span class="booleans">false</span></span></span><br />
+      <span class="code-block">}</span> <span class="comments">// Podemos definir objetos en una propiedad de una interfáz para decir si es obligatorio ponerla y el tipo que requiere</span><br />
+      <span class="keyword">endinterface</span><br />
+      <br>
+      <span class="keyword">class</span> <span class="functions-types-classes">Empleado</span> <span class="keyword">inherit</span> IHumano <span class="keyword">then</span><br />
+      <span class="code-block"><span class="keyword">makeFunc</span> <span class="functions-types-classes">init</span>(<span class="keyword">self</span>, <span class="arguments">nombre</span>) <span class="keyword">then</span></span><br />
+      <span class="code-block"><span class="code-block"><span class="keyword">self</span><span class="operator">.</span>nombre <span class="operator">&#61;</span> nombre</span> <span class="comments">// Aquí no estamos creando una variable, sino que le estamos dando un valor al indentificador de la interfáz que si o si tiene que ser un string y que es obligatorio definirlo</span></span><br />
+      <span class="code-block"><span class="keyword">endfunc</span></span><br />
+      <span class="keyword">endclass</span></p>
+      <p><span class="comments">// Entonces si queremos conseguir ese atributo que definimos dentro de la clase de la interfaz hacemos esto</span><br />
+      <span class="keyword">set</span> pepe <span class="operator">&#61;</span> <span class="functions-types-classes">Empleado(<span class="strings">"Pepe"</span>)</span><br />
+      <span class="functions-types-classes">print</span>(pepe<span class="operator">.</span>nombre) <span class="comments">// print es una función built-in que sirve para inprimir en consola lo que se le pase por argumento. en este caso imprime "Pepe" que es el valor que tiene ese atributo</span><br />
+      <span class="comments">// Podemos definir algún atributo no requerido de la interfáz desde fuera de la clase</span><br />
+      pepe<span class=operator">.</span>edad <span class="operator">&#61;</span> <span class="numbers">42</span> <span class="comments">// Y ahora el valor de edad de la interfáz que antes era "null" ahora es "42"</span></p>
     </div>
   </div>
 </body>
