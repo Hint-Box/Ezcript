@@ -16,14 +16,14 @@
     </h1>
     <h1>Types</h1>
     <div class="code">
-      <a class="types" href="#string">String</a>
-      <a class="types" href="#integer">Integer</a>
-      <a class="types" href="#integer">Float</a>
-      <a class="types" href="#boolean">Boolean</a>
-      <a class="types" href="#array">Array</a>
-      <a class="types" href="#object">Object</a>
-      <a class="types" href="#tuple">Tuple</a>
-      <p class="types">Null</p>
+      <a class="functions-types-classes" href="#string">String</a>
+      <a class="functions-types-classes" href="#integer">Integer</a>
+      <a class="functions-types-classes" href="#integer">Float</a>
+      <a class="functions-types-classes" href="#boolean">Boolean</a>
+      <a class="functions-types-classes" href="#array">Array</a>
+      <a class="functions-types-classes" href="#object">Object</a>
+      <a class="functions-types-classes" href="#tuple">Tuple</a>
+      <p class="functions-types-classes">Null</p>
     </div>
     <h1 id="string">Strings</h1>
     <div class="code">
@@ -99,7 +99,7 @@
       valor</span><br />
       num <span class="operator">&#61;</span> <span class="numbers">34</span>
       <span class="comments">// Y luego puedes definirle el valor de esta forma</span><br />
-      <span class="keyword">set</span> num<span class="operator">:</span> <span class="types">Integer</span>
+      <span class="keyword">set</span> num<span class="operator">:</span> <span class="functions-types-classes">Integer</span>
       <span class="operator">&#61;</span> <span class="numbers">34</span>
       <span class="comments">// También puedes definir la variable con un tipo ya
         definido</span></p>
@@ -151,6 +151,21 @@
       <span class="keyword">for each</span> element <span class="operator">in</span> list_elements <span class="comments">// Podrías también declarar el iterable en el mismo for. i.e: for each element in ["hola", "mundo", 1, 2, 3]</span><br />
       <span class="code-block">... <span class="comments">// Este código dejará de ejecutarse cuando se iteré todo en el iterable</span></span><br />
       <span class="keyword">endfor</span></p>
+    </div>
+    <h1>Declaración makeFunc</h1>
+    <div class="code">
+      <p><span class="comments">// Declarar una función es super fácil</span><br />
+      <span class="keyword">makeFunc</span> <span class="functions-types-classes">sum</span>(<span class="arguments">num1</span>, <span class="arguments">num2</span>) <span class="keyword">then</span><br />
+      <span class="code-block"><span class="keyword">return</span> num1 <span class="operator">+</span> num2 <span class="comments">// Las funciones pueden o no pueden retornar algo</span></span><br />
+      <span class="keyword">endfunc</span></p>
+      <p><span class="comments">// Estas son funciones anonimas</span><br />
+      (<span class="arguments">num1</span>, <span class="arguments">num2</span>) <span class="keyword">then</span> <span class="comments">// También podrías guardarla en una variable de esta forma set var_name = () then ...</span><br />
+      <span class="code-block">...</span><br />
+      <span class="keyword">endfunc</span>(<span class="numbers">3</span>, <span class="numbers">7</span>) <span class="comments">// Cuando no guardamos una función anónima en una variable debemos llamarla después de su definición poniendo "()" después de la palabra reservada "endfunc" y si la función recibe valores pasarselos en esos paréntesis</span></p>
+      <p><span class="comments">// Así llamamos a una función después de ser definida</span><br />
+      <span class="functions-types-classes">hola</span>() <span class="comments">// En el caso de que lleve argumentos se los ponemos</span></p>
+      <p><span class="comments">// Así guardamos lo que retorna una función en una variable definida</span><br />
+      <span class="keyword">set</span> var_name <span class="operator">&#61;</span> <span class="functions-types-classes">sum</span>(<span class="numbers">3</span>, <span class="numbers">7</span>)</p>
     </div>
   </div>
 </body>
