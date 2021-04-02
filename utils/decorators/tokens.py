@@ -44,7 +44,7 @@ def one_char_token(func: Token, c1: str) -> Token:
         elif c1 == '=':
             return func(TokenType.EQUAL, c1)
         elif c1 == '>':
-            return func(TokenType.GRATER, c1)
+            return func(TokenType.GREATER, c1)
         elif c1 == '[':
             return func(TokenType.LBRACKET, c1)
         elif c1 == ']':

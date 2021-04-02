@@ -11,7 +11,7 @@ class TokenType(Enum):
     """Define all the token types that the language have"""
 
     ENDMARKER = auto()
-    IDENTIFIER = auto()
+    NAME = auto()
     NUMBER = auto()
     STRING = auto()
     NEWLINE = auto()
@@ -30,7 +30,7 @@ class TokenType(Enum):
     STAR = auto()
     SLASH = auto()
     LESS = auto()
-    GRATER = auto()
+    GREATER = auto()
     NEGATION = auto()
     EQUAL = auto()
     DOT = auto()
