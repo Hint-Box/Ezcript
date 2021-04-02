@@ -3,6 +3,7 @@ from enum import (
     auto,
     unique,
 )
+from typing import (NamedTuple)
 
 
 @unique
@@ -12,7 +13,7 @@ class TokenType(Enum):
     ENDMARKER = auto()
     IDENTIFIER = auto()
     NUMBER = auto()
-    STRING = ()
+    STRING = auto()
     NEWLINE = auto()
     INDENT = auto()
     DEDENT = auto()
@@ -20,6 +21,8 @@ class TokenType(Enum):
     RPAREN = auto()
     LBRACKET = auto()
     RBRACKET = auto()
+    LBRACE = auto()
+    RBRACE = auto()
     COLON = auto()
     COMMA = auto()
     PLUS = auto()
@@ -28,6 +31,7 @@ class TokenType(Enum):
     SLASH = auto()
     LESS = auto()
     GRATER = auto()
+    NEGATION = auto()
     EQUAL = auto()
     DOT = auto()
     PERCENT = auto()
@@ -43,18 +47,26 @@ class TokenType(Enum):
     STAREQUAL = auto()
     SLASHEQUAL = auto()
     PERCENTEQUAL = auto()
+    DOUBLESTAREQUAL = auto()
     DOUBLESLASH = auto()
     DOUBLESLASHEQUAL = auto()
     RARROW = auto()  # this => not this ->
     ELLIPSIS = auto()
     OP = auto()
-    TYPE_IGNORE = auto()
-    TYPE_COMMENT = auto()
+    COMMENT = auto()
     ERRORTOKEN = auto()
-    N_TOKENS = 63
 
     ISEOF = ENDMARKER
     ISWHITESPACE = ENDMARKER\
         or NEWLINE\
         or INDENT\
         or DEDENT
+
+
+class Token(NamedTuple):
+    """The Token created with a token type and it literal"""
+    token_type: TokenType
+    literal: str
+
+    def __str__(self) -> str:
+        return f'Type {self.token_type}, Literal {self.literal}'
