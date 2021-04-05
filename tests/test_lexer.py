@@ -1,9 +1,13 @@
 from ezcript.lexer import Lexer
+from ezcript.tokens import (
+    Token,
+    TokenType,
+)
 
 
 class TestLexer:
     def test_one_char_token(self) -> None:
-        source: str = "%()*+,-./:<=>[]{}!"
+        source: str = "=%()*+,-./:<>[]{}!"
         lexer: Lexer = Lexer(source)
 
         tokens: list[Token] = []
@@ -11,6 +15,7 @@ class TestLexer:
             tokens.append(lexer.next_token())
 
         expected_tokens: list[Token] = [
+            Token(TokenType.EQUAL, "="),
             Token(TokenType.PERCENT, "%"),
             Token(TokenType.LPAREN, "("),
             Token(TokenType.RPAREN, ")"),
@@ -22,7 +27,6 @@ class TestLexer:
             Token(TokenType.SLASH, "/"),
             Token(TokenType.COLON, ":"),
             Token(TokenType.LESS, "<"),
-            Token(TokenType.EQUAL, "="),
             Token(TokenType.GREATER, ">"),
             Token(TokenType.LBRACKET, "["),
             Token(TokenType.RBRACKET, "]"),

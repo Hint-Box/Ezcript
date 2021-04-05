@@ -55,12 +55,7 @@ class TokenType(Enum):
     OP = auto()
     COMMENT = auto()
     ERRORTOKEN = auto()
-
-    ISEOF = ENDMARKER
-    ISWHITESPACE = ENDMARKER\
-        or NEWLINE\
-        or INDENT\
-        or DEDENT
+    EOF = auto()
 
 
 class Token(NamedTuple):
