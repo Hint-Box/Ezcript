@@ -1,20 +1,14 @@
 [tool.poetry]
-name = "fakeos-lang"
+name = "ezcript"
 version = "0.0.1"
-description = "Un lenguaje de programación amigable cuyo propósito es enseñar a los usuarios nuevos en el mundo de la informática lo básico de los lenguajes de programación y el uso que se les puede dar."
+description = ""
 authors = ["FRostri <FRostri@protonmail.com>"]
-license = "GPL-3.0"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 
 [tool.poetry.dev-dependencies]
-######## Esto lo uso para trabajar con Vim, sorry ########
-jedi = "^0.18.0"
-pylint = "^2.7.2"
-##########################################################
-nose = "^1.3.7"
-mypy = "^0.812"
+pytest = "^6.2.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
