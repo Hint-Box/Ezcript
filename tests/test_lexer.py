@@ -6,6 +6,27 @@ from ezcript.tokens import (
 
 
 class TestLexer:
+    def test_illegal_char(self) -> None:
+        source: str = "@~¿¡ºªçÇ"
+        lexer: Lexer = Lexer(source)
+
+        tokens: list[Token] = []
+        for i in range(len(source)):
+            tokens.append(lexer.next_token())
+
+        expected_tokens: list[Token] = [
+            Token(TokenType.ILLEGAL, "@"),
+            Token(TokenType.ILLEGAL, "~"),
+            Token(TokenType.ILLEGAL, "¿"),
+            Token(TokenType.ILLEGAL, "¡"),
+            Token(TokenType.ILLEGAL, "º"),
+            Token(TokenType.ILLEGAL, "ª"),
+            Token(TokenType.ILLEGAL, "ç"),
+            Token(TokenType.ILLEGAL, "Ç"),
+        ]
+
+        assert expected_tokens == tokens
+
     def test_one_char_token(self) -> None:
         source: str = "=%()*+,-./:<>[]{}!"
         lexer: Lexer = Lexer(source)

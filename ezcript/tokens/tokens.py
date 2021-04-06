@@ -52,7 +52,7 @@ class TokenType(Enum):
     DOUBLESLASHEQUAL = auto()
     RARROW = auto()  # this => not this ->
     ELLIPSIS = auto()
-    OP = auto()
+    ILLEGAL = auto()
     COMMENT = auto()
     ERRORTOKEN = auto()
     EOF = auto()

@@ -103,9 +103,9 @@ class Lexer:
             else:
                 token = Token(TokenType.NEGATION, self._character)
         else:
-            token = Token(TokenType.OP, self._character)
-        self._read_character()
+            token = Token(TokenType.ILLEGAL, self._character)
 
+        self._read_character()
         return token
 
     def _make_three_character_token(self, token_type: TokenType) -> Token:
