@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sintaxis que usaremos en el lenguaje</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -194,7 +192,7 @@
       <span class="comments">// Intanciamos una clase de la siguiente manera</span><br />
       <span class="keyword">set</span> enrique <span class="operator">&#61;</span> <span class="functions-types-classes">Humano</span>(<span class="strings">"Enrique"</span>, <span class="numbers">31</span>)<br />
       <span class="comments">// Y podemos usar sus métodos así:</span><br />
-      enrique<span class="operator">.</span><span class="functions-types-classes">caminar()</span></span> <span class="comments">// El argumento "self" no se pasa cuando llamas a un método de clase, porque lo toma automaticamente de la clase instanciada</span></p>
+      enrique<span class="operator">.</span><span class="functions-types-classes">caminar</span>()</span> <span class="comments">// El argumento "self" no se pasa cuando llamas a un método de clase, porque lo toma automaticamente de la clase instanciada</span></p>
     </div>
     <h1>Interfaces</h1>
     <div class="code">
@@ -214,7 +212,7 @@
       <span class="code-block"><span class="keyword">endfunc</span></span><br />
       <span class="keyword">endclass</span></p>
       <p><span class="comments">// Entonces si queremos conseguir ese atributo que definimos dentro de la clase de la interfaz hacemos esto</span><br />
-      <span class="keyword">set</span> pepe <span class="operator">&#61;</span> <span class="functions-types-classes">Empleado(<span class="strings">"Pepe"</span>)</span><br />
+      <span class="keyword">set</span> pepe <span class="operator">&#61;</span> <span class="functions-types-classes">Empleado</span>(<span class="strings">"Pepe"</span>)<br />
       <span class="functions-types-classes">print</span>(pepe<span class="operator">.</span>nombre) <span class="comments">// print es una función built-in que sirve para inprimir en consola lo que se le pase por argumento. en este caso imprime "Pepe" que es el valor que tiene ese atributo</span><br />
       <span class="comments">// Podemos definir algún atributo no requerido de la interfáz desde fuera de la clase</span><br />
       pepe<span class="operator">.</span>edad <span class="operator">&#61;</span> <span class="numbers">42</span> <span class="comments">// Y ahora el valor de edad de la interfáz que antes era "null" ahora es "42"</span></p>
