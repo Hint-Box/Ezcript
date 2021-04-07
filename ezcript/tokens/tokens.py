@@ -11,9 +11,11 @@ class TokenType(Enum):
     """Define all the token types that the language have"""
 
     ENDMARKER = auto()
-    NAME = auto()
+    KEYWORD = auto()
+    IDENTIFIER = auto()
     NUMBER = auto()
     STRING = auto()
+    BOOLEAN = auto()
     NEWLINE = auto()
     INDENT = auto()
     DEDENT = auto()
@@ -52,7 +54,7 @@ class TokenType(Enum):
     DOUBLESLASHEQUAL = auto()
     RARROW = auto()  # this => not this ->
     ELLIPSIS = auto()
-    OP = auto()
+    ILLEGAL = auto()
     COMMENT = auto()
     ERRORTOKEN = auto()
     EOF = auto()
@@ -65,3 +67,33 @@ class Token(NamedTuple):
 
     def __str__(self) -> str:
         return f'Type {self.token_type}, Literal {self.literal}'
+
+
+def lookup_token_type(literal: str) -> TokenType:
+    keywords: dict[str:TokenType] = {
+        "set": TokenType.KEYWORD,
+        "true": TokenType.BOOLEAN,
+        "false": TokenType.BOOLEAN,
+        "if": TokenType.KEYWORD,
+        "then": TokenType.KEYWORD,
+        "elseif": TokenType.KEYWORD,
+        "else": TokenType.KEYWORD,
+        "endif": TokenType.KEYWORD,
+        "while": TokenType.KEYWORD,
+        "do": TokenType.KEYWORD,
+        "break": TokenType.KEYWORD,
+        "endwhile": TokenType.KEYWORD,
+        "for": TokenType.KEYWORD,
+        "each": TokenType.KEYWORD,
+        "endfor": TokenType.KEYWORD,
+        "makeFunc": TokenType.KEYWORD,
+        "return": TokenType.KEYWORD,
+        "endfunc": TokenType.KEYWORD,
+        "class": TokenType.KEYWORD,
+        "endclass": TokenType.KEYWORD,
+        "inherit": TokenType.KEYWORD,
+        "interface": TokenType.KEYWORD,
+        "endinterface": TokenType.KEYWORD,
+    }
+
+    return keywords.get(literal, TokenType.IDENTIFIER)

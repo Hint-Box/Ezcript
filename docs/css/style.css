@@ -1,3 +1,8 @@
+@font-face {
+  font-family: mononoki;
+  src: url(../fonts/mononoki_nerd_font_regular.ttf);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -21,7 +26,7 @@ body {
   padding: 10px 0;
   line-height: 2;
   border-radius: 10px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'mononoki', monospace;
 }
 
 .code:nth-last-child(1) {
