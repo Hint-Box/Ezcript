@@ -16,6 +16,7 @@ class TokenType(Enum):
     NUMBER = auto()
     STRING = auto()
     BOOLEAN = auto()
+    NULL = auto()
     NEWLINE = auto()
     INDENT = auto()
     DEDENT = auto()
@@ -66,7 +67,7 @@ class Token(NamedTuple):
     literal: str
 
     def __str__(self) -> str:
-        return f'Type {self.token_type}, Literal {self.literal}'
+        return f'Type {self.token_type} [Literal {self.literal}]'
 
 
 def lookup_token_type(literal: str) -> TokenType:
@@ -78,6 +79,10 @@ def lookup_token_type(literal: str) -> TokenType:
         "then": TokenType.KEYWORD,
         "elseif": TokenType.KEYWORD,
         "else": TokenType.KEYWORD,
+        "and": TokenType.KEYWORD,
+        "or": TokenType.KEYWORD,
+        "not": TokenType.KEYWORD,
+        "is": TokenType.KEYWORD,
         "endif": TokenType.KEYWORD,
         "while": TokenType.KEYWORD,
         "do": TokenType.KEYWORD,
@@ -85,6 +90,7 @@ def lookup_token_type(literal: str) -> TokenType:
         "endwhile": TokenType.KEYWORD,
         "for": TokenType.KEYWORD,
         "each": TokenType.KEYWORD,
+        "in": TokenType.KEYWORD,
         "endfor": TokenType.KEYWORD,
         "makeFunc": TokenType.KEYWORD,
         "return": TokenType.KEYWORD,
@@ -94,6 +100,7 @@ def lookup_token_type(literal: str) -> TokenType:
         "inherit": TokenType.KEYWORD,
         "interface": TokenType.KEYWORD,
         "endinterface": TokenType.KEYWORD,
+        "null": TokenType.NULL,
     }
 
     return keywords.get(literal, TokenType.IDENTIFIER)
