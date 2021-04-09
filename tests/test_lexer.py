@@ -151,6 +151,10 @@ class TestLexer:
             then
             elseif
             else
+            and
+            or
+            not
+            is
             endif
             while
             do
@@ -158,6 +162,7 @@ class TestLexer:
             endwhile
             for
             each
+            in
             endfor
             makeFunc
             return
@@ -171,7 +176,7 @@ class TestLexer:
         lexer: Lexer = Lexer(source)
 
         tokens: list[Token] = []
-        for i in range(21):
+        for i in range(26):
             tokens.append(lexer.next_token())
 
         expected_tokens: list[Token] = [
@@ -180,6 +185,10 @@ class TestLexer:
             Token(TokenType.KEYWORD, "then"),
             Token(TokenType.KEYWORD, "elseif"),
             Token(TokenType.KEYWORD, "else"),
+            Token(TokenType.KEYWORD, "and"),
+            Token(TokenType.KEYWORD, "or"),
+            Token(TokenType.KEYWORD, "not"),
+            Token(TokenType.KEYWORD, "is"),
             Token(TokenType.KEYWORD, "endif"),
             Token(TokenType.KEYWORD, "while"),
             Token(TokenType.KEYWORD, "do"),
@@ -187,6 +196,7 @@ class TestLexer:
             Token(TokenType.KEYWORD, "endwhile"),
             Token(TokenType.KEYWORD, "for"),
             Token(TokenType.KEYWORD, "each"),
+            Token(TokenType.KEYWORD, "in"),
             Token(TokenType.KEYWORD, "endfor"),
             Token(TokenType.KEYWORD, "makeFunc"),
             Token(TokenType.KEYWORD, "return"),
@@ -196,6 +206,158 @@ class TestLexer:
             Token(TokenType.KEYWORD, "inherit"),
             Token(TokenType.KEYWORD, "interface"),
             Token(TokenType.KEYWORD, "endinterface"),
+        ]
+
+        assert expected_tokens == tokens
+
+    def test_set_statement(self) -> None:
+        source: str = """
+            set num_1
+            set var
+            set otra_var
+        """
+        lexer: Lexer = Lexer(source)
+
+        tokens: list[Token] = []
+        for i in range(6):
+            tokens.append(lexer.next_token())
+
+        expected_tokens: list[Token] = [
+            Token(TokenType.KEYWORD, "set"),
+            Token(TokenType.IDENTIFIER, "num_1"),
+            Token(TokenType.KEYWORD, "set"),
+            Token(TokenType.IDENTIFIER, "var"),
+            Token(TokenType.KEYWORD, "set"),
+            Token(TokenType.IDENTIFIER, "otra_var"),
+        ]
+
+        assert expected_tokens == tokens
+
+    def test_string(self) -> None:
+        source: str = '''
+            "text"
+            \'coso\'
+            "Texto largo ajam"
+        '''
+        lexer: Lexer = Lexer(source)
+
+        tokens: list[Token] = []
+        for i in range(3):
+            tokens.append(lexer.next_token())
+
+        expected_tokens: list[Token] = [
+            Token(TokenType.STRING, 'text'),
+            Token(TokenType.STRING, 'coso'),
+            Token(TokenType.STRING, 'Texto largo ajam'),
+        ]
+
+        assert expected_tokens == tokens
+
+    def test_assigment(self) -> None:
+        source: str = """
+            set var
+            var = 1
+            set num = 5
+            set result = 6 + 6
+        """
+        lexer: Lexer = Lexer(source)
+
+        tokens: list[Token] = []
+        for i in range(15):
+            tokens.append(lexer.next_token())
+
+        expected_tokens: list[Token] = [
+            Token(TokenType.KEYWORD, "set"),
+            Token(TokenType.IDENTIFIER, "var"),
+            Token(TokenType.IDENTIFIER, "var"),
+            Token(TokenType.EQUAL, "="),
+            Token(TokenType.NUMBER, "1"),
+            Token(TokenType.KEYWORD, "set"),
+            Token(TokenType.IDENTIFIER, "num"),
+            Token(TokenType.EQUAL, "="),
+            Token(TokenType.NUMBER, "5"),
+            Token(TokenType.KEYWORD, "set"),
+            Token(TokenType.IDENTIFIER, "result"),
+            Token(TokenType.EQUAL, "="),
+            Token(TokenType.NUMBER, "6"),
+            Token(TokenType.PLUS, "+"),
+            Token(TokenType.NUMBER, "6"),
+        ]
+
+        assert expected_tokens == tokens
+
+    def test_eof(self) -> None:
+        source: str = "5"
+        lexer: Lexer = Lexer(source)
+
+        tokens: list[Token] = []
+        for i in range(len(source) + 1):
+            tokens.append(lexer.next_token())
+
+        expected_tokens: list[Token] = [
+            Token(TokenType.NUMBER, "5"),
+            Token(TokenType.EOF, ""),
+        ]
+
+        assert expected_tokens == tokens
+
+    def test_if_expression(self) -> None:
+        source: str = """
+            if 5 < 10 then
+                print("si")
+            elseif 10 == 10 then
+                print("si también")
+            else then
+                print("no")
+            endif
+
+            set resultado = if true then
+                print("ostras")
+            endif
+        """
+        lexer: Lexer = Lexer(source)
+
+        tokens: list[Token] = []
+        for i in range(36):
+            tokens.append(lexer.next_token())
+
+        expected_tokens: list[Token] = [
+            Token(TokenType.KEYWORD, "if"),
+            Token(TokenType.NUMBER, "5"),
+            Token(TokenType.LESS, "<"),
+            Token(TokenType.NUMBER, "10"),
+            Token(TokenType.KEYWORD, "then"),
+            Token(TokenType.IDENTIFIER, "print"),
+            Token(TokenType.LPAREN, "("),
+            Token(TokenType.STRING, "si"),
+            Token(TokenType.RPAREN, ")"),
+            Token(TokenType.KEYWORD, "elseif"),
+            Token(TokenType.NUMBER, "10"),
+            Token(TokenType.EQEQUAL, "=="),
+            Token(TokenType.NUMBER, "10"),
+            Token(TokenType.KEYWORD, "then"),
+            Token(TokenType.IDENTIFIER, "print"),
+            Token(TokenType.LPAREN, "("),
+            Token(TokenType.STRING, "si también"),
+            Token(TokenType.RPAREN, ")"),
+            Token(TokenType.KEYWORD, "else"),
+            Token(TokenType.KEYWORD, "then"),
+            Token(TokenType.IDENTIFIER, "print"),
+            Token(TokenType.LPAREN, "("),
+            Token(TokenType.STRING, "no"),
+            Token(TokenType.RPAREN, ")"),
+            Token(TokenType.KEYWORD, "endif"),
+            Token(TokenType.KEYWORD, "set"),
+            Token(TokenType.IDENTIFIER, "resultado"),
+            Token(TokenType.EQUAL, "="),
+            Token(TokenType.KEYWORD, "if"),
+            Token(TokenType.BOOLEAN, "true"),
+            Token(TokenType.KEYWORD, "then"),
+            Token(TokenType.IDENTIFIER, "print"),
+            Token(TokenType.LPAREN, "("),
+            Token(TokenType.STRING, "ostras"),
+            Token(TokenType.RPAREN, ")"),
+            Token(TokenType.KEYWORD, "endif"),
         ]
 
         assert expected_tokens == tokens

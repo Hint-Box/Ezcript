@@ -8,6 +8,8 @@ from ezcript.tokens import (
 
 
 class Lexer:
+    """The Lexer is the one who convert all the source code you write in the
+    interpreter into tokens for pass it to the parser later on"""
     def __init__(self, source: str) -> None:
         self._source: str = source
         self._character: str = ''
@@ -17,6 +19,13 @@ class Lexer:
         self._read_character()
 
     def next_token(self) -> Token:
+        """
+        Get the current character the lexer are reading and convert it in a
+        Token and return it
+
+        :return: Return the Token of the current character
+        :rtype: Token
+        """
         self._skip_whitespace()
 
         # Getting the tokens
@@ -119,10 +128,12 @@ class Lexer:
                 return Token(TokenType.NUMBER, f'{literal}.{sufix}')
 
             return Token(TokenType.NUMBER, literal)
-        elif match(r'^\"|\'$', self._character):
+        elif match(r"^\"|'$", self._character):
             literal = self._read_string()
 
             return Token(TokenType.STRING, literal)
+        elif match(r"^$", self._character):
+            token = Token(TokenType.EOF, self._character)
         else:
             token = Token(TokenType.ILLEGAL, self._character)
 
@@ -130,6 +141,15 @@ class Lexer:
         return token
 
     def _make_three_character_token(self, token_type: TokenType) -> Token:
+        """
+        This function take the token type of the current character and return
+        a token with three characters
+
+        :param token_type: The token type of the current character
+        :type token_type: TokenType
+        :return: return the token for the "next_token" function
+        :rtype: Token
+        """
         first = self._character
         self._read_character()
         second = self._character
@@ -139,6 +159,15 @@ class Lexer:
         return Token(token_type, f'{first}{second}{third}')
 
     def _make_two_character_token(self, token_type: TokenType) -> Token:
+        """
+        This function take the token type of the current character and return
+        a token with two characters
+
+        :param token_type: The token type of the current character
+        :type token_type: TokenType
+        :return: return the roken for the "next_token" function
+        :rtype: Token
+        """
         prefix = self._character
         self._read_character()
         suffix = self._character
@@ -146,15 +175,38 @@ class Lexer:
         return Token(token_type, f'{prefix}{suffix}')
 
     def _read_character(self) -> None:
+        """
+        This function read each character of the source that we pass to the
+        class. We use this function specifically for save some character
+        and do something with it or for skip one character.
+
+        :return: The function don't return anything
+        :rtype: None
+        """
         if self._read_position >= len(self._source):
+            # If the lexer finish to read the source, the current caracter is
+            # a empty string again
             self._character = ''
         else:
+            # if not, the character will be the current character
             self._character = self._source[self._read_position]
 
+        # Save the position of the current character readed
         self._position = self._read_position
+        # And then aument in one the actual position
         self._read_position += 1
 
     def _peek_character(self, skip: int = 1) -> str:
+        """
+        This function return the character after the current, and if you pass
+        an argument that have to be an integer, the function will skip the
+        number of character you pass
+
+        :param skip: The numbers of character the function will skip, defaults to 1
+        :type skip: int, optional
+        :return: Return the next token to the current
+        :rtype: str
+        """
         if self._read_position >= len(self._source):
             return ''
 
@@ -162,6 +214,13 @@ class Lexer:
             else self._source[self._read_position + (skip - 1)]
 
     def _skip_whitespace(self) -> None:
+        """
+        This function is used for the other function "next_token" for skip
+        any whitespace that the source have for just center to the tokens
+
+        :return: None
+        :rtype: None
+        """
         while match(r'^\s$', self._character):
             self._read_character()
 
