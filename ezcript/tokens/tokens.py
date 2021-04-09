@@ -73,6 +73,7 @@ class Token(NamedTuple):
 def lookup_token_type(literal: str) -> TokenType:
     keywords: dict[str:TokenType] = {
         "set": TokenType.KEYWORD,
+        "const": TokenType.KEYWORD,
         "true": TokenType.BOOLEAN,
         "false": TokenType.BOOLEAN,
         "if": TokenType.KEYWORD,
@@ -83,24 +84,19 @@ def lookup_token_type(literal: str) -> TokenType:
         "or": TokenType.KEYWORD,
         "not": TokenType.KEYWORD,
         "is": TokenType.KEYWORD,
-        "endif": TokenType.KEYWORD,
         "while": TokenType.KEYWORD,
         "do": TokenType.KEYWORD,
         "break": TokenType.KEYWORD,
-        "endwhile": TokenType.KEYWORD,
         "for": TokenType.KEYWORD,
         "each": TokenType.KEYWORD,
         "in": TokenType.KEYWORD,
-        "endfor": TokenType.KEYWORD,
         "makeFunc": TokenType.KEYWORD,
         "return": TokenType.KEYWORD,
-        "endfunc": TokenType.KEYWORD,
         "class": TokenType.KEYWORD,
-        "endclass": TokenType.KEYWORD,
         "inherit": TokenType.KEYWORD,
         "interface": TokenType.KEYWORD,
-        "endinterface": TokenType.KEYWORD,
         "null": TokenType.NULL,
+        "end": TokenType.KEYWORD,
     }
 
     return keywords.get(literal, TokenType.IDENTIFIER)

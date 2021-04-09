@@ -147,6 +147,7 @@ class TestLexer:
     def test_keywords(self) -> None:
         source: str = """
             set
+            const
             if
             then
             elseif
@@ -155,32 +156,28 @@ class TestLexer:
             or
             not
             is
-            endif
             while
             do
             break
-            endwhile
             for
             each
             in
-            endfor
             makeFunc
             return
-            endfunc
             class
-            endclass
             inherit
             interface
-            endinterface
+            end
         """
         lexer: Lexer = Lexer(source)
 
         tokens: list[Token] = []
-        for i in range(26):
+        for i in range(22):
             tokens.append(lexer.next_token())
 
         expected_tokens: list[Token] = [
             Token(TokenType.KEYWORD, "set"),
+            Token(TokenType.KEYWORD, "const"),
             Token(TokenType.KEYWORD, "if"),
             Token(TokenType.KEYWORD, "then"),
             Token(TokenType.KEYWORD, "elseif"),
@@ -189,23 +186,18 @@ class TestLexer:
             Token(TokenType.KEYWORD, "or"),
             Token(TokenType.KEYWORD, "not"),
             Token(TokenType.KEYWORD, "is"),
-            Token(TokenType.KEYWORD, "endif"),
             Token(TokenType.KEYWORD, "while"),
             Token(TokenType.KEYWORD, "do"),
             Token(TokenType.KEYWORD, "break"),
-            Token(TokenType.KEYWORD, "endwhile"),
             Token(TokenType.KEYWORD, "for"),
             Token(TokenType.KEYWORD, "each"),
             Token(TokenType.KEYWORD, "in"),
-            Token(TokenType.KEYWORD, "endfor"),
             Token(TokenType.KEYWORD, "makeFunc"),
             Token(TokenType.KEYWORD, "return"),
-            Token(TokenType.KEYWORD, "endfunc"),
             Token(TokenType.KEYWORD, "class"),
-            Token(TokenType.KEYWORD, "endclass"),
             Token(TokenType.KEYWORD, "inherit"),
             Token(TokenType.KEYWORD, "interface"),
-            Token(TokenType.KEYWORD, "endinterface"),
+            Token(TokenType.KEYWORD, "end"),
         ]
 
         assert expected_tokens == tokens
@@ -309,11 +301,11 @@ class TestLexer:
                 print("si también")
             else then
                 print("no")
-            endif
+            end
 
             set resultado = if true then
                 print("ostras")
-            endif
+            end
         """
         lexer: Lexer = Lexer(source)
 
@@ -346,7 +338,7 @@ class TestLexer:
             Token(TokenType.LPAREN, "("),
             Token(TokenType.STRING, "no"),
             Token(TokenType.RPAREN, ")"),
-            Token(TokenType.KEYWORD, "endif"),
+            Token(TokenType.KEYWORD, "end"),
             Token(TokenType.KEYWORD, "set"),
             Token(TokenType.IDENTIFIER, "resultado"),
             Token(TokenType.EQUAL, "="),
@@ -357,7 +349,7 @@ class TestLexer:
             Token(TokenType.LPAREN, "("),
             Token(TokenType.STRING, "ostras"),
             Token(TokenType.RPAREN, ")"),
-            Token(TokenType.KEYWORD, "endif"),
+            Token(TokenType.KEYWORD, "end"),
         ]
 
         assert expected_tokens == tokens
