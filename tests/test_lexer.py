@@ -1,5 +1,5 @@
-from ezcript.lexer import Lexer
-from ezcript.tokens import (
+from ezcript_lang.lexer import Lexer
+from ezcript_lang.tokens import (
     Token,
     TokenType,
 )

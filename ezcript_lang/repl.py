@@ -1,8 +1,8 @@
 import readline
 from os import system, name
 
-from ezcript.lexer import Lexer
-from ezcript.tokens import (
+from ezcript_lang.lexer import Lexer
+from ezcript_lang.tokens import (
     Token,
     TokenType,
 )
@@ -21,7 +21,7 @@ def clear() -> None:
         system('clear')
 
 
-def start_repl() -> None:
+def repl() -> None:
     try:
         while (source := input('>> ')) != 'exit()':
             lexer: Lexer = Lexer(source)
