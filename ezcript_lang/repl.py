@@ -12,11 +12,11 @@ EOF_TOKEN: Token = Token(TokenType.EOF, '')
 
 def clear() -> None:
 
-    # command for windows
+    # command for Windows
     if name == 'nt':
         system('cls')
 
-    # commanf for mac and linux
+    # command for MacOS and Linux
     else:
         system('clear')
 

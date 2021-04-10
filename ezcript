@@ -25,11 +25,9 @@ def main() -> None:
             if not os.path.isfile(
                     arg) and arg[0:2] != '--' and arg[0:1] != '-':
                 print("El archivo no existe")
-            elif arg[-3:] != '.ez' and arg[0:2] != '--' and arg[0:1] != '-':
-                print("Ese no es un archivo soportado por el lenguaje!")
             elif arg in ('--help', '-h'):
                 print("Aquí hay un poco de ayuda acerca del interprete")
-            elif os.path.isfile(arg) and arg[-3:] == '.ez':
+            elif os.path.isfile(arg):
                 with open(arg, "r") as file:
                     lines = file.readlines()
 
