@@ -1,6 +1,6 @@
 from re import match
 
-from ezcript.tokens import (
+from ezcript_lang.tokens import (
     Token,
     TokenType,
     lookup_token_type,
@@ -94,6 +94,8 @@ class Lexer:
         elif match(r'^=$', self._character):
             if self._peek_character() == '=':
                 token = self._make_two_character_token(TokenType.EQEQUAL)
+            elif self._peek_character() == '>':
+                token = self._make_two_character_token(TokenType.RARROW)
             else:
                 token = Token(TokenType.EQUAL, self._character)
         elif match(r'^>$', self._character):
@@ -125,13 +127,13 @@ class Lexer:
             if self._character == '.':
                 self._read_character()
                 sufix = self._read_number()
-                return Token(TokenType.NUMBER, f'{literal}.{sufix}')
+                token = Token(TokenType.NUMBER, f'{literal}.{sufix}')
 
-            return Token(TokenType.NUMBER, literal)
+            token = Token(TokenType.NUMBER, literal)
         elif match(r"^\"|'$", self._character):
             literal = self._read_string()
 
-            return Token(TokenType.STRING, literal)
+            token = Token(TokenType.STRING, literal)
         elif match(r"^$", self._character):
             token = Token(TokenType.EOF, self._character)
         else:
