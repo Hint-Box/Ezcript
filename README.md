@@ -1,6 +1,17 @@
 # Ezcript
-Un lenguaje de programación amigable cuyo propósito es enseñar a los usuarios nuevos en el mundo de la informática lo básico de los lenguajes de programación y el uso que se les puede dar, es bástante legible y rápido.
 
-You can execute the interpreter for now like this: `./ezcript`
+* [Español](https://github.com/Hint-Box/Ezcript/tree/Suaj/README.es.md)
 
-Or if you can read a file and get the tokens for now, you can execute: `./ezcript <file>.ez`
+A friendly programming language whose purpose is to teach new users in the tech world about the basics\
+of programming languages and their use. It is readable and easy to learn!\
+
+# Instructions
+You can execute Ezcript programs in your favorite terminal by using `./ezcript`.\
+Or, if you can read a file and get the tokens, you can use `./ezcript <file>.ez`, **for now.**
+
+---
+
+## Additional Information
+### Credits
+**FRostri** (*Rubén Zamora*): Tokens, Parser, Lexer, documentation, general code\
+**Sebastián** (*Sebastian-byte*): General code
