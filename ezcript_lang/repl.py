@@ -1,38 +1,30 @@
-import readline
-from os import system, name
+#!/usr/bin/env python3
 
+# The Ezcript interpreter.
+
+from sys import platform as cwos  # Current Working OS
+from os import system
+
+from ezcript_lang.tokens import Token, TokenType
 from ezcript_lang.lexer import Lexer
-from ezcript_lang.tokens import (
-    Token,
-    TokenType,
-)
-
-EOF_TOKEN: Token = Token(TokenType.EOF, '')
-
-
-def clear() -> None:
-
-    # command for Windows
-    if name == 'nt':
-        system('cls')
-
-    # command for MacOS and Linux
-    else:
-        system('clear')
 
 
 def repl() -> None:
+    EOF_TOKEN: Token = Token(TokenType.EOF, '')
     try:
-        while (source := input('>> ')) != 'exit()':
+        while (source := input(">> ")) != "exit":
             lexer: Lexer = Lexer(source)
 
-            if source == 'help()':
-                print("Write \"clear()\" for clear the screen")
-            elif source == 'clear()':
-                clear()
+            if source == 'help':
+                print('Type "clear" to clear the console.')
+
+            elif source == 'clear':
+                system("cls") if cwos[:5] == "win32" else system("clear")
+
             else:
                 while (token := lexer.next_token()) != EOF_TOKEN:
                     print(token)
-        print("Bye now")
+        print("\nGoodbye!")
+
     except KeyboardInterrupt:
-        print("\nBye now")
+        print("\nGoodbye!")
