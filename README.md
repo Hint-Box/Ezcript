@@ -7,7 +7,8 @@ of programming languages and their use. It is readable and easy to learn!\
 
 # Instructions
 You can execute Ezcript programs in your favorite terminal by using `./ezcript`.\
-Or, if you can read a file and get the tokens, you can use `./ezcript <file>.ez`, **for now.**
+Or, if you want to read a file and get the tokens the interpreter create,
+you can use `./ezcript <file>.ez`, **for now.**
 
 ---
 
