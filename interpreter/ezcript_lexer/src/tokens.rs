@@ -13,6 +13,9 @@ pub enum TokenKind {
     Float,
     Boolean,
     Null,
+    Not,
+
+    // one char
     Plus,
     Minus,
     Star,
@@ -27,15 +30,14 @@ pub enum TokenKind {
     RBrace,
     Colon,
     Comma,
+    Equal,
     Less,
     Greater,
-    Not,
     Dot,
     Percent,
     Hashtag,
-    Newline,
     EqEqual,
-    NotEqual,
+    BangEqual,
     LessEqual,
     GreaterEqual,
     DoublePlus,
@@ -65,11 +67,12 @@ impl TokenKind {
 
 /// The Token structure, for create and manage the tokens from the Lexer
 #[derive(Debug, Clone, PartialEq)]
-struct Token {
+pub struct Token {
     pub kind: TokenKind,
     pub lexeme: String,
     pub literal: Option<Literal>,
     pub line: u64,
+    pub offset: u64,
 }
 
 impl Token {
@@ -92,6 +95,7 @@ impl Default for Token {
             lexeme: "".to_string(),
             literal: None,
             line: 1,
+            offset: 0,
         }
     }
 }
@@ -100,7 +104,7 @@ impl fmt::Display for Token {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "{:?} {}, {:?} : {}",
+            "Type: {:?}, Lexeme: {}, Literal: {:?} : [line {}]",
             self.kind, self.lexeme, self.literal, self.line
         )
     }
@@ -213,7 +217,6 @@ mod test {
         for (key, value) in RESERVED.iter() {
             let kind: TokenKind = *TokenKind::reserved(key).unwrap();
             assert_eq!(kind, *value);
-            println!("{:?} == {:?}", kind, key);
         }
     }
 }

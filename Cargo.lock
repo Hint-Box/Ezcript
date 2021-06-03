@@ -8,11 +8,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "ezcript_errors"
+version = "0.1.0"
+dependencies = [
+ "ezcript_object",
+]
+
+[[package]]
 name = "ezcript_lexer"
 version = "0.0.0"
 dependencies = [
+ "ezcript_errors",
  "lazy_static",
 ]
+
+[[package]]
+name = "ezcript_object"
+version = "0.1.0"
 
 [[package]]
 name = "lazy_static"
