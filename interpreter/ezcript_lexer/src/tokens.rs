@@ -73,7 +73,8 @@ struct Token {
 }
 
 impl Token {
-    /// This function allow us to know if the type that we pass it is a TokenKind variant or not
+    /// This function allow us to know if the type of the token that we pass it is a TokenKind
+    /// variant or not
     pub fn in_types(&self, kinds: &[TokenKind]) -> bool {
         for kind in kinds {
             if &self.kind == kind {
@@ -201,4 +202,18 @@ lazy_static! {
     .iter()
     .cloned()
     .collect();
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_tokens() {
+        for (key, value) in RESERVED.iter() {
+            let kind: TokenKind = *TokenKind::reserved(key).unwrap();
+            assert_eq!(kind, *value);
+            println!("{:?} == {:?}", kind, key);
+        }
+    }
 }
