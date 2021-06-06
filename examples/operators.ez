@@ -1,0 +1,27 @@
+# También probamos los comentarios de una sola linea
+#* Y también comentarios de bloque
+   que funcionarían de esta forma *#
+[]
+{}
+()
++
+-
+*
+/
+++
++=
+--
+-=
+**
+//
+.
+,
+->
+%
+:
+<
+>
+>=
+<=
+==
+!=

@@ -49,10 +49,7 @@ pub enum TokenKind {
     StarEqual,
     SlashEqual,
     PercentEqual,
-    DoubleStarEqual,
-    DoubleSlashEqual,
     RArrow,
-    Ellipsis,
     Illegal,
     Eof,
 }
@@ -72,7 +69,6 @@ pub struct Token {
     pub lexeme: String,
     pub literal: Option<Literal>,
     pub line: u64,
-    pub offset: u64,
 }
 
 impl Token {
@@ -95,7 +91,6 @@ impl Default for Token {
             lexeme: "".to_string(),
             literal: None,
             line: 1,
-            offset: 0,
         }
     }
 }

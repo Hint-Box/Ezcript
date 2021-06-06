@@ -7,5 +7,5 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-ezcript_errors = { path = "../ezcript_result" }
+ezcript_result = { path = "../ezcript_result" }
 lazy_static = "1.4.0"
