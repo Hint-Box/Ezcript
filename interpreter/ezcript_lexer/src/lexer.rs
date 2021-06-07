@@ -10,8 +10,6 @@ pub struct Lexer<'a> {
     source: Chars<'a>,
     tokens: VecDeque<char>,
     lexeme: String,
-    start: usize,
-    current: usize,
     line: u64,
     eof: bool,
 }
@@ -22,8 +20,6 @@ impl<'a> Lexer<'a> {
             source,
             tokens: VecDeque::with_capacity(2),
             lexeme: String::from(""),
-            start: 0,
-            current: 0,
             line: 1,
             eof: false,
         }
@@ -129,7 +125,6 @@ impl<'a> Lexer<'a> {
                 c if is_alphanumeric(c) => return self.identifier(),
                 _ => return self.err("unexpected character"),
             }
-            self.current = self.current + 1_usize
         }
     }
 
