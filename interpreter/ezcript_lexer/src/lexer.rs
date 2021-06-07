@@ -319,17 +319,6 @@ impl<'a> Lexer<'a> {
     }
 }
 
-// /// Describes a type that can be converted into a token Lexer.
-// pub trait TokenIterator {
-//     fn tokens(&self) -> Lexer;
-// }
-
-// impl TokenIterator for String {
-//     fn tokens(&self) -> Lexer {
-//         Lexer::new(self)
-//     }
-// }
-
 fn is_alphanumeric(c: char) -> bool {
     c.is_digit(36) || c == '_' || c == '$'
 }
