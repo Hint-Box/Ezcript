@@ -125,8 +125,8 @@ impl<'a> Lexer<'a> {
                         self.line += 1;
                     }
                 }
-                // c if c.is_digit(10) => self.number(),
-                // c if is_alphanumeric(c) => self.identifier(),
+                c if c.is_digit(10) => return self.number(),
+                c if is_alphanumeric(c) => return self.identifier(),
                 _ => return self.err("unexpected character"),
             }
             self.current = self.current + 1_usize
@@ -283,6 +283,45 @@ impl<'a> Lexer<'a> {
 
         self.literal_token(TokenKind::String, Some(Literal::String(literal)))
     }
+
+    fn number(&mut self) -> Option<Result<Token>> {
+        while self.peek(1).is_digit(10) {
+            self.advance();
+        }
+
+        if self.peek(1) == '.' && self.peek(2).is_digit(10) {
+            self.advance();
+            while self.peek(1).is_digit(10) {
+                self.advance();
+            }
+        }
+
+        if let Ok(literal) = self.lexeme.clone().parse::<f64>() {
+            return self.literal_token(TokenKind::Number, Some(Literal::Number(literal)));
+        }
+
+        self.err("invalid numeric")
+    }
+
+    fn identifier(&mut self) -> Option<Result<Token>> {
+        while is_alphanumeric(self.peek(1)) || self.peek(1).is_digit(10) {
+            self.advance();
+        }
+        let lexeme: &str = self.lexeme.as_ref();
+        let kind = TokenKind::reserved(lexeme).map_or(TokenKind::Ident, |t| *t);
+
+        match kind {
+            TokenKind::Null => self.literal_token(kind, Some(Literal::Null)),
+            TokenKind::Boolean => {
+                if lexeme == "true" {
+                    return self.literal_token(kind, Some(Literal::Boolean(true)));
+                } else {
+                    return self.literal_token(kind, Some(Literal::Boolean(false)));
+                }
+            }
+            _ => self.static_token(kind),
+        }
+    }
 }
 
 // /// Describes a type that can be converted into a token Lexer.
@@ -296,6 +335,6 @@ impl<'a> Lexer<'a> {
 //     }
 // }
 
-// fn is_alphanumeric(c: char) -> bool {
-//     c.is_digit(36) || c == '_'
-// }
+fn is_alphanumeric(c: char) -> bool {
+    c.is_digit(36) || c == '_' || c == '$'
+}

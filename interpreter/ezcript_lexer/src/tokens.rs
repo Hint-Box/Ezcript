@@ -194,6 +194,7 @@ lazy_static! {
         ("each", TokenKind::Keyword),
         ("func", TokenKind::Keyword),
         ("return", TokenKind::Keyword),
+        ("match", TokenKind::Keyword),
         ("class", TokenKind::Keyword),
         ("inherit", TokenKind::Keyword),
         ("null", TokenKind::Null),
