@@ -113,8 +113,8 @@ impl<'a> Lexer<'a> {
                         TokenKind::Greater,
                     )
                 }
-                // '"' => self.string(),
-                // '\'' => self.string(),
+                '"' => return self.string(),
+                '\'' => return self.string(),
                 '#' => match self.peek(1) {
                     '*' => self.block_comment(),
                     _ => self.line_comment(),
@@ -248,6 +248,40 @@ impl<'a> Lexer<'a> {
         } else {
             self.static_token(second)
         }
+    }
+
+    fn string(&mut self) -> Option<Result<Token>> {
+        loop {
+            let last = self.advance_until(&['\n', '"', '\'']);
+
+            match self.peek(1) {
+                '\n' => self.line += 1,
+                '"' if last == '\\' => {
+                    self.lexeme.pop();
+                }
+                '"' => break,
+                '\'' if last == '\\' => {
+                    self.lexeme.pop();
+                }
+                '\'' => break,
+                '\0' => return self.err("unterminated string"),
+                _ => return self.err("unexpected character"),
+            };
+
+            self.advance();
+        }
+
+        self.advance();
+
+        let literal: String = self
+            .lexeme
+            .clone()
+            .chars()
+            .skip(1)
+            .take(self.lexeme.len() - 2)
+            .collect();
+
+        self.literal_token(TokenKind::String, Some(Literal::String(literal)))
     }
 }
 
