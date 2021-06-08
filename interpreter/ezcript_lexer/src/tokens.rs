@@ -177,6 +177,8 @@ lazy_static! {
     static ref RESERVED: HashMap<&'static str, TokenKind> = [
         ("set", TokenKind::Keyword),
         ("const", TokenKind::Keyword),
+        ("use", TokenKind::Keyword),
+        ("from", TokenKind::Keyword),
         ("true", TokenKind::Boolean),
         ("false", TokenKind::Boolean),
         ("if", TokenKind::Keyword),

@@ -1,4 +1,11 @@
 # We can parse identifiers, booleans and keywords!
+# Using imports
+use os
+use from fmt Formatter
+use from fmt.colors { red, blue, reset }
+use file.function
+use from file.class function_class
+
 set a_variable = "This is a string into a variable"
 
 set result = if a_variable.type == string do
