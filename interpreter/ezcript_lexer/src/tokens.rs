@@ -4,7 +4,7 @@ use std::fmt;
 use std::hash::{Hash, Hasher};
 
 /// All the tokens that the language accept
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum TokenKind {
     Keyword,
     Ident,
@@ -14,6 +14,7 @@ pub enum TokenKind {
     Boolean,
     Null,
     Not,
+    NewLine,
 
     // one char
     Plus,
@@ -63,7 +64,7 @@ impl TokenKind {
 }
 
 /// The Token structure, for create and manage the tokens from the Lexer
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Token {
     pub kind: TokenKind,
     pub lexeme: String,
@@ -179,6 +180,7 @@ lazy_static! {
         ("const", TokenKind::Keyword),
         ("use", TokenKind::Keyword),
         ("from", TokenKind::Keyword),
+        ("self", TokenKind::Keyword),
         ("true", TokenKind::Boolean),
         ("false", TokenKind::Boolean),
         ("if", TokenKind::Keyword),
@@ -192,6 +194,7 @@ lazy_static! {
         ("do", TokenKind::Keyword),
         ("while", TokenKind::Keyword),
         ("break", TokenKind::Keyword),
+        ("continue", TokenKind::Keyword),
         ("for", TokenKind::Keyword),
         ("each", TokenKind::Keyword),
         ("func", TokenKind::Keyword),

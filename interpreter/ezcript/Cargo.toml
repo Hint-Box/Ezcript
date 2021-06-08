@@ -9,5 +9,7 @@ edition = "2018"
 [dependencies]
 ezcript_lexer = { path = "../ezcript_lexer" }
 ezcript_result = { path = "../ezcript_result" }
+ezcript_ast = { path = "../ezcript_ast" }
 
 clap = "2.33.3"
+ansi_term = "0.12.1"

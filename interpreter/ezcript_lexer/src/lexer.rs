@@ -119,6 +119,7 @@ impl<'a> Lexer<'a> {
                     self.lexeme.clear();
                     if c == '\n' {
                         self.line += 1;
+                        return self.static_token(TokenKind::NewLine);
                     }
                 }
                 c if c.is_digit(10) => return self.number(),

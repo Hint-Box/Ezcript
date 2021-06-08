@@ -1,4 +1,5 @@
 extern crate clap;
+use ansi_term::Colour::RGB;
 use clap::{App, Arg};
 use std::fs::File;
 use std::io::prelude::*;
@@ -11,6 +12,8 @@ use ezcript_lexer::{
 use ezcript_result::Result;
 
 fn main() -> Result<()> {
+    #[cfg(target_os = "windows")]
+    ansi_term::enable_ansi_support();
     let args = App::new("Ezcript-lang")
         .version("[1.0]")
         .author("Author: DaBitwisersWay")
@@ -40,7 +43,7 @@ Type \"help\" for more information"
     );
     loop {
         let mut source = String::new();
-        print!(">> ");
+        print!("{}", RGB(31, 151, 116).bold().paint(">> "));
         stdout().flush()?;
         stdin().read_line(&mut source).expect("Failed to read line");
         source.remove(source.len() - 1);
