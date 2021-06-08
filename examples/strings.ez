@@ -1,0 +1,6 @@
+# A string is sequence of characters that form a text
+"This is a simple one line string"
+"We can
+do this too, the interpreter will not fail."
+
+# That will be changed, we will use other type of syntax for block strings

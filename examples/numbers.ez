@@ -1,0 +1,7 @@
+# We can parse integers numbers and float numbers
+123
+1.23
+5436
+0.2
+
+# But we cannot do something like ".3" it throw an error
