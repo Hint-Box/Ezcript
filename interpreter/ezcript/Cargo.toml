@@ -10,6 +10,6 @@ edition = "2018"
 ezcript_lexer = { path = "../ezcript_lexer" }
 ezcript_result = { path = "../ezcript_result" }
 ezcript_ast = { path = "../ezcript_ast" }
+ezcript_runner = { path = "../ezcript_runner" }
 
 clap = "2.33.3"
-ansi_term = "0.12.1"

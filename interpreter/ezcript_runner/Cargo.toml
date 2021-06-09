@@ -1,0 +1,13 @@
+[package]
+name = "ezcript_runner"
+version = "0.1.0"
+authors = ["FRostri <isaachmi@protonmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ezcript_result = { path = "../ezcript_result" }
+ezcript_lexer = { path = "../ezcript_lexer" }
+
+ansi_term = "0.12.1"
