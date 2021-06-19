@@ -1,16 +1,18 @@
-use crate::expressions::Expressions;
-use crate::statements::Statements;
+// use crate::expressions::Expressions;
+// use crate::statements::Statements;
 
-/// The Expression Node
-#[derive(Debug, PartialEq, Eq, Clone, Hash)]
-pub enum Ast {
-    Expression(Expressions),
-    Statement(Statements),
-    // Program(Program),
-}
+// /// The Ast enum, containing all the nodes
+// #[derive(Debug, PartialEq, Eq, Clone, Hash)]
+// pub enum Ast {
+//     Expression(Expressions),
+//     Statement(Statements),
+//     // Program(Program),
+// }
 
+/// Trait for structs that will be a Node for the Abstract syntaxt tree
 pub trait ASTNode {
-    fn token_literal(&self) -> String;
+    /// Get the lexeme of the Node token
+    fn token_lexeme(&self) -> String;
 }
 
 // #[derive(Debug, Clone, PartialEq, Hash, Eq)]
