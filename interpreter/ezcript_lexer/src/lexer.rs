@@ -5,7 +5,7 @@ use std::str::Chars;
 use super::tokens::{Literal, Token, TokenKind};
 use ezcript_result::{Error, Result};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Lexer<'a> {
     source: Chars<'a>,
     tokens: VecDeque<char>,

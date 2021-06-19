@@ -1,5 +1,6 @@
 // use crate::expressions::Expressions;
-// use crate::statements::Statements;
+use crate::statements::Statements;
+use std::fmt;
 
 // /// The Ast enum, containing all the nodes
 // #[derive(Debug, PartialEq, Eq, Clone, Hash)]
@@ -10,37 +11,48 @@
 // }
 
 /// Trait for structs that will be a Node for the Abstract syntaxt tree
-pub trait ASTNode {
+pub trait ASTNode: fmt::Display {
     /// Get the lexeme of the Node token
     fn token_lexeme(&self) -> String;
 }
 
-// #[derive(Debug, Clone, PartialEq, Hash, Eq)]
-// pub struct Program {
-//     statements: Vec<Statements>,
-// }
+/// Our general program that contain all the statements
+#[derive(Debug, Clone, PartialEq, Hash, Eq)]
+pub struct Program {
+    statements: Vec<Statements>,
+}
 
-// impl Program {
-//     pub fn new(statements: Vec<Statements>) -> Self {
-//         Program { statements }
-//     }
+impl Program {
+    pub fn new(statements: Vec<Statements>) -> Self {
+        Self { statements }
+    }
+}
 
-//     pub fn as_string(&self) -> String {
-//         let mut out: Vec<String> = Vec::new();
-//         for statement in self.statements.iter() {
-//             out.push(statement.to_string());
-//         }
+impl ASTNode for Program {
+    fn token_lexeme(&self) -> String {
+        if self.statements.len() > 0 {
+            // Here we are using the match expression for get the lexeme of the token depending on
+            // which statement it is
+            match &self.statements[0] {
+                Statements::SetStatement(statement) => statement.token_lexeme(),
+                Statements::ReturnStatement(statement) => statement.token_lexeme(),
+            };
+        }
 
-//         return out.join("");
-//     }
-// }
+        "".to_string()
+    }
+}
 
-// impl ASTNode for Program {
-//     fn token_literal(&self) -> String {
-//         if self.statements.len() > 0 {
-//             return self.statements[0].token_literal();
-//         }
+impl fmt::Display for Program {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let mut out: Vec<String> = Vec::new();
+        for statement in self.statements.clone() {
+            match statement {
+                Statements::SetStatement(statement) => out.push(statement.to_string()),
+                Statements::ReturnStatement(statement) => out.push(statement.to_string()),
+            }
+        }
 
-//         String::from("")
-//     }
-// }
+        write!(f, "{}", out.join(""))
+    }
+}

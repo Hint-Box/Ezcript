@@ -3,17 +3,17 @@ use crate::expressions::{Boolean, Expressions, Float, Identifier, Integer};
 use ezcript_lexer::tokens::Token;
 use std::fmt;
 
-impl fmt::Display for dyn ASTNode {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self.token_lexeme())
-    }
-}
+// impl fmt::Display for dyn ASTNode {
+//     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+//         write!(f, "{}", self.token_lexeme())
+//     }
+// }
 
 /// Statements enum where we will locate all the statements of our language
 #[derive(Debug, PartialEq, Eq, Clone, Hash)]
 pub enum Statements {
-    SetStatement,
-    ReturnStatement,
+    SetStatement(SetStatement),
+    ReturnStatement(ReturnStatement),
 }
 
 /// The SetStatement will look like

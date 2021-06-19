@@ -1,6 +1,16 @@
 // =============================================================================
 //     * Utility functions *
 // =============================================================================
+/// Function that let us know if the type of the first argument is equal to the type of the second
+/// argumen.
+///
+/// **Examples**
+/// ```
+/// use utils::is_instance;
+/// use std::collections::HashMap;
+/// let text: String = String::from("Hola");
+/// is_instance(&text, String::new());
+/// ```
 pub fn is_instance<U, T>(_: &U, _: T) {
     let value = std::any::type_name::<U>();
     let real = std::any::type_name::<T>();
@@ -13,13 +23,20 @@ pub fn is_instance<U, T>(_: &U, _: T) {
 // =============================================================================
 //     * Utility macros *
 // =============================================================================
-/// Macro for testing purpose.
-/// Ensures that the value passed as a parameter is not None.
+/// Macro for testing purpose. The macro ensures that the value passed as a parameter is not None.
+/// The argument of the macro must be an Option<T> value.
+/// **Examples**
+/// ```
+/// use utils::is_not_none;
+/// is_not_none!(Some(5));
+/// is_not_none!(Some("Hello"));
+/// // If you use something like: "is_not_none(None);" the program will panic.
+/// ```
 #[macro_export]
 macro_rules! is_not_none {
     ($value:expr) => {
         match $value {
-            Some(val) => (),
+            Some(_) => (),
             None => panic!("The value cannot be None"),
         }
     };
@@ -29,29 +46,9 @@ macro_rules! is_not_none {
 mod test {
     use super::*;
 
-    #[derive(Debug)]
-    struct Codo {
-        codo: String,
-        num: u64,
-    }
-
-    impl Codo {
-        pub fn new() -> Self {
-            Self {
-                codo: "".to_string(),
-                num: 0,
-            }
-        }
-    }
-
     #[test]
     fn test_is_instance() {
-        let codo = Codo {
-            codo: "mi codo".to_string(),
-            num: 42,
-        };
-
-        is_instance(&codo, Codo::new());
+        is_instance(&"hola".to_string(), String::new());
     }
 
     #[test]
