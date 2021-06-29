@@ -19,12 +19,12 @@ pub trait ASTNode: fmt::Display {
 /// Our general program that contain all the statements
 #[derive(Debug, Clone, PartialEq, Hash, Eq)]
 pub struct Program {
-    statements: Vec<Statements>,
+    pub statements: Vec<Statements>,
 }
 
 impl Program {
-    pub fn new(statements: Vec<Statements>) -> Self {
-        Self { statements }
+    pub fn new(statements: Vec<Statements>) -> Option<Self> {
+        Some(Self { statements })
     }
 }
 

@@ -28,16 +28,13 @@ Type \"help\" for more information"
         } else if source == "help" {
             println!("Some help message");
         } else {
-            let mut tokens: Vec<Token> = Vec::new();
-            for _i in 0..source.len() {
+            loop {
                 let token: Token = lexer.next_token().unwrap().unwrap();
-                if token.kind == TokenKind::Eof {
+                if token.kind != TokenKind::Eof {
+                    println!("{}", token);
+                } else {
                     break;
                 }
-                tokens.push(token);
-            }
-            for token in tokens {
-                println!("{}", token);
             }
         }
     }
@@ -50,7 +47,7 @@ pub fn run_file(file_name: Option<&str>) -> Result<()> {
     let mut contents = String::new();
     buf_reader.read_to_string(&mut contents)?;
     let mut lexer = Lexer::new(contents.chars());
-    for _i in 0..contents.len() {
+    loop {
         let token = lexer.next_token().unwrap().unwrap();
         if token.kind != TokenKind::Eof {
             println!("{}", token);

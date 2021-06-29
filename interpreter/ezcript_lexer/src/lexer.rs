@@ -5,6 +5,8 @@ use std::str::Chars;
 use super::tokens::{Literal, Token, TokenKind};
 use ezcript_result::{Error, Result};
 
+// TODO: Find a form to use the Indent and the Dedent tokens for blocks in our languages.
+
 #[derive(Debug, Clone)]
 pub struct Lexer<'a> {
     source: Chars<'a>,
@@ -139,6 +141,15 @@ impl<'a> Lexer<'a> {
             literal,
             line: self.line,
             lexeme: self.lexeme.clone(),
+        }))
+    }
+
+    fn literal_indent(&self, kind: TokenKind, lexeme: String) -> Option<Result<Token>> {
+        Some(Ok(Token {
+            kind,
+            literal: None,
+            line: self.line,
+            lexeme,
         }))
     }
 
@@ -304,7 +315,7 @@ impl<'a> Lexer<'a> {
             self.advance();
         }
         let lexeme: &str = self.lexeme.as_ref();
-        let kind = TokenKind::reserved(lexeme).map_or(TokenKind::Ident, |t| *t);
+        let kind = TokenKind::reserved(lexeme).map_or(TokenKind::Identifier, |t| *t);
 
         match kind {
             TokenKind::Null => self.literal_token(kind, Some(Literal::Null)),

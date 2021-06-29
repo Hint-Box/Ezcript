@@ -7,7 +7,7 @@ use std::hash::{Hash, Hasher};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum TokenKind {
     Keyword,
-    Ident,
+    Identifier,
     Number,
     String,
     Float,
@@ -15,14 +15,14 @@ pub enum TokenKind {
     Null,
     Not,
     NewLine,
+    Indent,
+    Dedent,
 
     // one char
     Plus,
     Minus,
     Star,
     Slash,
-    Indent,
-    Dedent,
     LParen,
     RParen,
     LBracket,
@@ -51,7 +51,6 @@ pub enum TokenKind {
     SlashEqual,
     PercentEqual,
     RArrow,
-    Illegal,
     Eof,
 }
 
@@ -100,7 +99,7 @@ impl fmt::Display for Token {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "Type: {:?}, Lexeme: {}, Literal: {:?} : [line {}]",
+            "Type: {:?}, Lexeme: '{}', Literal: {:?} : [line {}]",
             self.kind, self.lexeme, self.literal, self.line
         )
     }

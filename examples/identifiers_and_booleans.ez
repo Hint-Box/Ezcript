@@ -9,31 +9,31 @@ use from file.class function_class
 set a_variable = "This is a string into a variable"
 
 set result = if a_variable.type == string do
-    return "Is a String!"
+  return "Is a String!"
 else do
-    return "What is this?"
+  return "What is this?"
 
 print(result)
 
 set array_of_numbers = [1, 3, 53, 124]
 for each value in array_of_numbers do
-    print(value)
+  print(value)
 
 set counter = 0
 while counter < 5 do
-    print("Is less than 5")
-    counter++
+  print("Is less than 5")
+  counter++
 
 set counter_2 = 0
 do
-    print(counter_2)
-    counter_2++
+  print(counter_2)
+  counter_2++
 while counter_2 < 5
 
 func matching(matched: number) -> string do
-    match matched
-        1 do return "Is one",
-        2 do return "Is two",
-        3 do return "Is four",
+  match matched
+    1 do return "Is one",
+    2 do return "Is two",
+    3 do return "Is four",
 
 print(matching(2))

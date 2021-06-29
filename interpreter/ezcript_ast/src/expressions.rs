@@ -12,6 +12,35 @@ pub enum Expressions {
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash)]
+pub struct Null {
+    pub token: Token,
+    pub value: String,
+    pub line: u64,
+}
+
+impl Null {
+    pub fn new(token: Token, value: &str, line: u64) -> Self {
+        Self {
+            token,
+            value: value.to_string(),
+            line,
+        }
+    }
+}
+
+impl ASTNode for Null {
+    fn token_lexeme(&self) -> String {
+        self.token.lexeme.clone()
+    }
+}
+
+impl fmt::Display for Null {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.value)
+    }
+}
+
+#[derive(Debug, PartialEq, Eq, Clone, Hash)]
 pub struct Identifier {
     pub token: Token,
     pub value: String,
