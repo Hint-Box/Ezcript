@@ -89,4 +89,16 @@ mod test {
             vec!["string".to_string(), "num".to_string(), "bool".to_string()];
         assert_eq!(statements_name, expected_names);
     }
+
+    #[test]
+    fn test_parse_errors() {
+        let source: &str = "set x 5\n";
+        let lexer: Lexer = Lexer::new(source.chars());
+        let mut parser: Parser = Parser::new(lexer);
+
+        let _program: Option<Program> = parser.parse_program();
+        println!("{:?}", parser.errors());
+
+        assert_eq!(parser.errors().len(), 1);
+    }
 }

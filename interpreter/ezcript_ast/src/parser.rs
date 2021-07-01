@@ -11,6 +11,7 @@ pub struct Parser<'a> {
     lexer: Lexer<'a>,
     current_token: Option<Token>,
     peek_token: Option<Token>,
+    errors: Vec<String>,
 }
 
 impl<'a> Parser<'a> {
@@ -19,11 +20,16 @@ impl<'a> Parser<'a> {
             lexer,
             current_token: None,
             peek_token: None,
+            errors: Vec::new(),
         };
         parser.advance_tokens();
         parser.advance_tokens();
 
         parser
+    }
+
+    pub fn errors(&self) -> &Vec<String> {
+        &self.errors
     }
 
     /// This function is in charge of making the instance of the program and starts to see which
@@ -101,6 +107,17 @@ impl<'a> Parser<'a> {
         };
     }
 
+    fn expected_token_error(&mut self, kind: TokenKind) {
+        is_not_none!(self.peek_token);
+        let error = format!(
+            "The following token should be of type '{:?}'. But got '{:?}'",
+            kind,
+            self.peek_token.as_ref().unwrap().kind
+        );
+
+        self.errors.push(error);
+    }
+
     fn expected_token(&mut self, kind: TokenKind) -> bool {
         is_not_none!(self.peek_token);
         if self.peek_token.as_ref().unwrap().kind == kind {
@@ -108,6 +125,7 @@ impl<'a> Parser<'a> {
 
             return true;
         }
+        self.expected_token_error(kind);
         false
     }
 }
