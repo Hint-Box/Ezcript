@@ -28,6 +28,8 @@ impl<'a> Parser<'a> {
         parser
     }
 
+    /// This function is the most similar thing you can do for make a getter property.
+    /// It is used to obtain all the errors that our parser has suffered from.
     pub fn errors(&self) -> &Vec<String> {
         &self.errors
     }
