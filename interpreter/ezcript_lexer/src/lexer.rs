@@ -144,15 +144,6 @@ impl<'a> Lexer<'a> {
         }))
     }
 
-    fn literal_indent(&self, kind: TokenKind, lexeme: String) -> Option<Result<Token>> {
-        Some(Ok(Token {
-            kind,
-            literal: None,
-            line: self.line,
-            lexeme,
-        }))
-    }
-
     fn advance(&mut self) -> Option<char> {
         if self.eof {
             return None;
@@ -203,7 +194,7 @@ impl<'a> Lexer<'a> {
                 (_, '\n') => self.line += 1,
                 ('*', '#') => {
                     self.advance(); // *
-                    self.advance(); // /
+                    self.advance(); // #
                     break;
                 }
                 (_, '\0') => break,

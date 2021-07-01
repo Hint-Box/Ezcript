@@ -1,9 +1,8 @@
 use crate::ast::Program;
-use crate::statements::Statements;
-use ezcript_lexer::{
-    lexer::Lexer,
-    tokens::{Token, TokenKind},
-};
+use crate::expressions::Identifier;
+use crate::statements::{SetStatement, Statements};
+use ezcript_lexer::lexer::Lexer;
+use ezcript_lexer::tokens::{Token, TokenKind};
 
 /// The Parser struct take a Lexer and then generate a program that generate an
 /// Abstract Syntax Tree
@@ -16,67 +15,99 @@ pub struct Parser<'a> {
 
 impl<'a> Parser<'a> {
     pub fn new(lexer: Lexer<'a>) -> Self {
-        Self {
+        let mut parser = Self {
             lexer,
             current_token: None,
             peek_token: None,
-        }
+        };
+        parser.advance_tokens();
+        parser.advance_tokens();
+
+        parser
     }
 
     /// This function is in charge of making the instance of the program and starts to see which
     /// are its statements
-    pub fn parse_program(&self) -> Option<Program> {
-        let program: Option<Program> = Program::new(Vec::new());
+    pub fn parse_program(&mut self) -> Option<Program> {
+        let mut program: Option<Program> = Program::new(Vec::new());
 
         is_not_none!(self.current_token.as_ref());
-        while self.current_token.unwrap().kind != TokenKind.Eof {
+        while self.current_token.as_ref().unwrap().kind != TokenKind::Eof {
             let statement = self.parse_statement();
             match statement {
                 Some(stmt) => match program {
-                    Some(program) => program.statements.push(stmt),
-                    None => continue,
+                    Some(ref mut program) => program.statements.push(stmt),
+                    None => (),
                 },
-                None => continue,
+                None => (),
             }
+
+            self.advance_tokens();
         }
 
         program
     }
 
-    fn parse_statement(&self) -> Option<Statement> {
+    fn parse_statement(&mut self) -> Option<Statements> {
         is_not_none!(self.current_token.as_ref());
-        if self.current_token.unwrap().kind == TokenKind.Keyword
-            && self.current_token.unwrap().lexem == "set".to_string()
+        if self.current_token.as_ref().unwrap().kind == TokenKind::Keyword
+            && self.current_token.as_ref().unwrap().lexeme == "set".to_string()
         {
-            return self.parse_let_statement();
+            self.parse_let_statement()
         } else {
-            return None;
+            None
         }
     }
 
-    fn parse_let_statement(&self) -> Option<LetStatement> {
+    fn parse_let_statement(&mut self) -> Option<Statements> {
         is_not_none!(self.current_token.as_ref());
-        let let_statement = SetStatement::new(self.current_token, None, None);
+        let mut set_statement =
+            SetStatement::new(self.current_token.as_ref().unwrap().clone(), None, None);
 
         if !self.expected_token(TokenKind::Identifier) {
             return None;
         }
 
-        let_statement.name = Identifier::new(
-            self.current_token.unwrap(),
-            self.current_token.unwrap().lexeme.as_str(),
-            self.current_token.unwrap().line,
-        );
+        set_statement.name = Some(Identifier::new(
+            self.current_token.as_ref().unwrap().clone(),
+            self.current_token.as_ref().unwrap().lexeme.as_str(),
+            self.current_token.as_ref().unwrap().line,
+        ));
 
-        if !self.expected_token(TokenKind.Equal) {
+        if !self.expected_token(TokenKind::Equal) {
             return None;
         }
 
         // TODO: Finish the parse expression later
-        while self.current_token.unwrap().kind != TokenType.NewLine {
+        while self.current_token.as_ref().unwrap().kind != TokenKind::NewLine {
             self.advance_tokens();
         }
 
-        Some(let_statement)
+        Some(Statements::SetStatement(set_statement))
+    }
+
+    fn advance_tokens(&mut self) {
+        if self.peek_token == None {
+            self.current_token = Some(Token::default());
+        } else {
+            self.current_token = Some(self.peek_token.as_ref().unwrap().clone());
+        }
+        self.peek_token = match self.lexer.next_token() {
+            Some(result) => match result {
+                Ok(token) => Some(token),
+                Err(_) => Some(Token::default()),
+            },
+            None => Some(Token::default()),
+        };
+    }
+
+    fn expected_token(&mut self, kind: TokenKind) -> bool {
+        is_not_none!(self.peek_token);
+        if self.peek_token.as_ref().unwrap().kind == kind {
+            self.advance_tokens();
+
+            return true;
+        }
+        false
     }
 }

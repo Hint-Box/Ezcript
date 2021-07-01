@@ -21,7 +21,6 @@ Type \"help\" for more information"
         print!("{}", RGB(31, 151, 116).bold().paint(">> "));
         stdout().flush()?;
         stdin().read_line(&mut source).expect("Failed to read line");
-        source.remove(source.len() - 1);
         let mut lexer = Lexer::new(source.chars());
         if source == "exit".to_string() {
             break;
@@ -47,6 +46,8 @@ pub fn run_file(file_name: Option<&str>) -> Result<()> {
     let mut contents = String::new();
     buf_reader.read_to_string(&mut contents)?;
     let mut lexer = Lexer::new(contents.chars());
+    // let mut parser = parser::Parser::new(lexer.clone());
+    // let program: Option<ast::Program> = parser.parse_program();
     loop {
         let token = lexer.next_token().unwrap().unwrap();
         if token.kind != TokenKind::Eof {

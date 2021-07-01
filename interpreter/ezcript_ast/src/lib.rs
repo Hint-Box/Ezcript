@@ -1,6 +1,6 @@
-mod ast;
+pub mod ast;
 mod expressions;
-mod parser;
+pub mod parser;
 mod statements;
 
 #[macro_use]
@@ -17,9 +17,9 @@ mod test {
 
     #[test]
     fn test_parse_program() {
-        let source: &str = "set x = 5";
+        let source: &str = "set x = 5\n";
         let lexer: Lexer = Lexer::new(source.chars());
-        let parser: Parser = Parser::new(lexer);
+        let mut parser: Parser = Parser::new(lexer);
 
         let program: Option<Program> = parser.parse_program();
 
@@ -35,7 +35,7 @@ mod test {
             set foo = 20
         ";
         let lexer: Lexer = Lexer::new(source.chars());
-        let parser: Parser = Parser::new(lexer);
+        let mut parser: Parser = Parser::new(lexer);
 
         let program: Option<Program> = parser.parse_program();
 
@@ -54,5 +54,39 @@ mod test {
                 _ => continue,
             }
         }
+    }
+
+    #[test]
+    fn test_variable_name() {
+        let source: &str = "set string = \"hola\"
+            set num = 5
+            set bool = true
+        ";
+        let lexer: Lexer = Lexer::new(source.chars());
+        let mut parser: Parser = Parser::new(lexer);
+
+        let program: Option<Program> = parser.parse_program();
+        is_not_none!(program.as_ref());
+
+        let program = program.unwrap();
+
+        let mut statements_name: Vec<String> = Vec::new();
+
+        for statement in program.statements.clone() {
+            match statement {
+                statements::Statements::SetStatement(ref statement) => {
+                    is_instance(
+                        &Some(statement.clone()),
+                        Some(statements::SetStatement::default()),
+                    );
+                    is_not_none!(statement.name);
+                    statements_name.push(statement.name.as_ref().unwrap().value.clone());
+                }
+                _ => continue,
+            }
+        }
+        let expected_names: Vec<String> =
+            vec!["string".to_string(), "num".to_string(), "bool".to_string()];
+        assert_eq!(statements_name, expected_names);
     }
 }

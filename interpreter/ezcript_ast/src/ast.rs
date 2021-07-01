@@ -2,14 +2,6 @@
 use crate::statements::Statements;
 use std::fmt;
 
-// /// The Ast enum, containing all the nodes
-// #[derive(Debug, PartialEq, Eq, Clone, Hash)]
-// pub enum Ast {
-//     Expression(Expressions),
-//     Statement(Statements),
-//     // Program(Program),
-// }
-
 /// Trait for structs that will be a Node for the Abstract syntaxt tree
 pub trait ASTNode: fmt::Display {
     /// Get the lexeme of the Node token
