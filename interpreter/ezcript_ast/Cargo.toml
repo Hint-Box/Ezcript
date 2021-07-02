@@ -8,4 +8,5 @@ edition = "2018"
 
 [dependencies]
 ezcript_lexer = { path = "../ezcript_lexer" }
+ezcript_result = { path = "../ezcript_result" }
 utils = { path = "../../utils" }

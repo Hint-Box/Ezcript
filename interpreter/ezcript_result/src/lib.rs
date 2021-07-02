@@ -1,73 +1,60 @@
-use std::error;
+use std::error::Error;
 use std::fmt;
 use std::io;
 use std::result;
+// #[macro_use]
+// extern crate lazy_static;
 
 /// A Ezcript-Specific Result Type
-pub type Result<T> = result::Result<T, Error>;
+pub type Result<T> = result::Result<T, EzcriptError>;
 
 /// A Lox-Specific Error
 #[derive(Debug)]
-pub enum Error {
-    /// Returned if the CLI command is used incorrectly
-    Usage,
+pub enum EzcriptError {
+    // /// Returned if the CLI command is used incorrectly
+    // Usage,
     /// Returned if there is an error reading from a file or stdin
     IO(io::Error),
     /// Returned if the scanner encounters an error
     Lexical(u64, String, String),
     /// Returned if the parser encounters an error
     Parse(u64, String, String),
-    /// Returned if there is an error at runtime
-    Runtime(u64, String, String),
-    /// Sentinel error for break statements
-    Break(u64),
 }
 
-impl From<io::Error> for Error {
-    fn from(err: io::Error) -> Error {
-        Error::IO(err)
+impl From<io::Error> for EzcriptError {
+    fn from(err: io::Error) -> EzcriptError {
+        EzcriptError::IO(err)
     }
 }
 
-impl fmt::Display for Error {
+impl fmt::Display for EzcriptError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            Error::Usage => write!(f, "Usage: ezcript [script]"),
-            Error::IO(ref e) => e.fmt(f),
-            Error::Lexical(ref line, ref msg, ref whence) => {
-                write!(f, "Lexical Error [line {}] {}: {:?}", line, msg, whence)
+            // EzcriptError::Usage => write!(f, "{:?}", USAGE),
+            EzcriptError::IO(ref e) => e.fmt(f),
+            EzcriptError::Lexical(ref line, ref msg, ref whence) => {
+                write!(f, "Lexical Error [line {}] {}: {}", line, msg, whence)
             }
-            Error::Parse(ref line, ref msg, ref near) => {
+            EzcriptError::Parse(ref line, ref msg, ref near) => {
                 write!(f, "Parse Error [line {}] {}: near {}", line, msg, &near)
             }
-            Error::Runtime(ref line, ref msg, ref near) => {
-                write!(f, "Runtime Error [line {}] {}: near {}", line, msg, &near)
-            }
-            Error::Break(ref line) => write!(
-                f,
-                "Runtime Error [line {}] unexpected break statement",
-                line
-            ),
         }
     }
 }
 
-impl error::Error for Error {
-    fn description(&self) -> &str {
+impl Error for EzcriptError {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
         match *self {
-            Error::Usage => "usage error",
-            Error::IO(ref e) => e.description(),
-            Error::Lexical(_, _, _) => "lexical error",
-            Error::Parse(_, _, _) => "parse error",
-            Error::Runtime(_, _, _) => "runtime error",
-            Error::Break(_) => "break error",
-        }
-    }
-
-    fn cause(&self) -> Option<&dyn error::Error> {
-        match *self {
-            Error::IO(ref e) => e.source(),
+            EzcriptError::IO(ref e) => e.source(),
             _ => None,
         }
     }
 }
+
+// lazy_static! {
+//     #[derive(Debug)]
+//     pub static ref USAGE: String = "usage: ezcript [option]
+// Options and Arguments
+
+//     file:   read program from an script file".to_string();
+// }

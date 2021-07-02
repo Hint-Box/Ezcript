@@ -3,15 +3,17 @@ use crate::expressions::Identifier;
 use crate::statements::{SetStatement, Statements};
 use ezcript_lexer::lexer::Lexer;
 use ezcript_lexer::tokens::{Token, TokenKind};
+use ezcript_result::{EzcriptError, Result};
 
 /// The Parser struct take a Lexer and then generate a program that generate an
 /// Abstract Syntax Tree
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct Parser<'a> {
     lexer: Lexer<'a>,
     current_token: Option<Token>,
     peek_token: Option<Token>,
-    errors: Vec<String>,
+    errors: Vec<Option<Result<()>>>,
+    line: u64,
 }
 
 impl<'a> Parser<'a> {
@@ -21,6 +23,7 @@ impl<'a> Parser<'a> {
             current_token: None,
             peek_token: None,
             errors: Vec::new(),
+            line: 1,
         };
         parser.advance_tokens();
         parser.advance_tokens();
@@ -30,7 +33,7 @@ impl<'a> Parser<'a> {
 
     /// This function is the most similar thing you can do for make a getter property.
     /// It is used to obtain all the errors that our parser has suffered from.
-    pub fn errors(&self) -> &Vec<String> {
+    pub fn errors(&self) -> &Vec<Option<Result<()>>> {
         &self.errors
     }
 
@@ -54,6 +57,15 @@ impl<'a> Parser<'a> {
         }
 
         program
+    }
+
+    fn err(&self, msg: &str) -> Option<Result<()>> {
+        is_not_none!(self.current_token);
+        Some(Err(EzcriptError::Parse(
+            self.line,
+            msg.to_string(),
+            self.current_token.as_ref().unwrap().lexeme.clone(),
+        )))
     }
 
     fn parse_statement(&mut self) -> Option<Statements> {
@@ -117,7 +129,7 @@ impl<'a> Parser<'a> {
             self.peek_token.as_ref().unwrap().kind
         );
 
-        self.errors.push(error);
+        self.errors.push(self.err(error.as_str()));
     }
 
     fn expected_token(&mut self, kind: TokenKind) -> bool {

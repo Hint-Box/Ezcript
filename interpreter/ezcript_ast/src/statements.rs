@@ -1,6 +1,6 @@
 use crate::ast::ASTNode;
 use crate::expressions::{Boolean, Expressions, Float, Identifier, Integer, Null};
-use ezcript_lexer::tokens::{Token, TokenKind};
+use ezcript_lexer::tokens::Token;
 use std::fmt;
 
 /// Statements enum where we will locate all the statements of our language

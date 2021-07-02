@@ -68,6 +68,7 @@ name = "ezcript_ast"
 version = "0.1.0"
 dependencies = [
  "ezcript_lexer",
+ "ezcript_result",
  "utils",
 ]
 
@@ -82,6 +83,9 @@ dependencies = [
 [[package]]
 name = "ezcript_result"
 version = "0.1.0"
+dependencies = [
+ "lazy_static",
+]
 
 [[package]]
 name = "ezcript_runner"

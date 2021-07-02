@@ -22,18 +22,25 @@ Type \"help\" for more information"
         stdout().flush()?;
         stdin().read_line(&mut source).expect("Failed to read line");
         let mut lexer = Lexer::new(source.chars());
-        if source == "exit".to_string() {
+        if source == "exit\n".to_string() {
             break;
-        } else if source == "help" {
-            println!("Some help message");
-        } else {
-            loop {
-                let token: Token = lexer.next_token().unwrap().unwrap();
-                if token.kind != TokenKind::Eof {
-                    println!("{}", token);
-                } else {
-                    break;
-                }
+        }
+        loop {
+            let token: Token = match lexer.next_token() {
+                Some(result) => match result {
+                    Ok(token) => token,
+                    Err(e) => {
+                        println!("{}", e.to_string());
+                        break;
+                    }
+                },
+                None => break,
+            };
+
+            if token.kind != TokenKind::Eof {
+                println!("{}", token);
+            } else {
+                break;
             }
         }
     }
@@ -46,10 +53,18 @@ pub fn run_file(file_name: Option<&str>) -> Result<()> {
     let mut contents = String::new();
     buf_reader.read_to_string(&mut contents)?;
     let mut lexer = Lexer::new(contents.chars());
-    // let mut parser = parser::Parser::new(lexer.clone());
-    // let program: Option<ast::Program> = parser.parse_program();
     loop {
-        let token = lexer.next_token().unwrap().unwrap();
+        let token: Token = match lexer.next_token() {
+            Some(result) => match result {
+                Ok(token) => token,
+                Err(e) => {
+                    println!("{}", e.to_string());
+                    break;
+                }
+            },
+            None => break,
+        };
+
         if token.kind != TokenKind::Eof {
             println!("{}", token);
         } else {

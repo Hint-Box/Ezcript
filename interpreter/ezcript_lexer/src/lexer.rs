@@ -3,10 +3,11 @@ use std::ops::Index;
 use std::str::Chars;
 
 use super::tokens::{Literal, Token, TokenKind};
-use ezcript_result::{Error, Result};
+use ezcript_result::{EzcriptError, Result};
 
 // TODO: Find a form to use the Indent and the Dedent tokens for blocks in our languages.
 
+/// Lexer struct for construct Tokens
 #[derive(Debug, Clone)]
 pub struct Lexer<'a> {
     source: Chars<'a>,
@@ -27,6 +28,38 @@ impl<'a> Lexer<'a> {
         }
     }
 
+    /// Public function for get the next token in the source code that we pass to the lexer. Return
+    /// an Option and if is Some must be a Result of Token or an EzcriptError.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use ezcript_lexer::tokens::{Literal, Token, TokenKind};
+    /// use ezcript_lexer::lexer::Lexer;
+    ///
+    /// let source: &str = "set number = 5";
+    /// let mut lexer: Lexer = Lexer::new(source.chars());
+    /// let mut tokens: Vec<Token> = Vec::new();
+    /// for _i in 0..source.len() {
+    ///    let token: Token = match lexer.next_token() {
+    ///        Some(result) => match result {
+    ///            Ok(token) => token,
+    ///            Err(_) => continue,
+    ///        },
+    ///        None => continue,
+    ///    };
+    ///     tokens.push(token);
+    /// }
+    /// let expected_tokens: Vec<Token> = vec![
+    ///     Token { kind: TokenKind::Keyword, lexeme: "set".to_string(), literal: None, line: 1 },
+    ///     Token { kind: TokenKind::Identifier, lexeme: "number".to_string(), literal: None, line: 1 },
+    ///     Token { kind: TokenKind::Equal, lexeme: "=".to_string(), literal: None, line: 1 },
+    ///     Token { kind: TokenKind::Number, lexeme: "5".to_string(), literal: Some(Literal::Number(5.0)), line: 1 },
+    ///     Token { kind: TokenKind::Eof, lexeme: "\u{0}".to_string(), literal: None, line: 1 },
+    /// ];
+    ///
+    /// assert_eq!(expected_tokens, tokens);
+    /// ```
     pub fn next_token(&mut self) -> Option<Result<Token>> {
         if self.eof {
             return None;
@@ -207,7 +240,7 @@ impl<'a> Lexer<'a> {
     }
 
     fn err(&self, msg: &str) -> Option<Result<Token>> {
-        Some(Err(Error::Lexical(
+        Some(Err(EzcriptError::Lexical(
             self.line,
             msg.to_string(),
             self.lexeme.clone(),
