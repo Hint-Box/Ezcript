@@ -17,11 +17,22 @@ pub struct SetStatement {
     pub token: Token,
     pub name: Option<Identifier>,
     pub value: Option<Expressions>,
+    pub line: u64,
 }
 
 impl SetStatement {
-    pub fn new(token: Token, name: Option<Identifier>, value: Option<Expressions>) -> Self {
-        Self { token, name, value }
+    pub fn new(
+        token: Token,
+        name: Option<Identifier>,
+        value: Option<Expressions>,
+        line: u64,
+    ) -> Self {
+        Self {
+            token,
+            name,
+            value,
+            line,
+        }
     }
 }
 
@@ -31,6 +42,7 @@ impl Default for SetStatement {
             token: Token::default(),
             name: None,
             value: None,
+            line: 1,
         }
     }
 }
@@ -92,13 +104,25 @@ impl fmt::Display for SetStatement {
 pub struct ReturnStatement {
     token: Token,
     return_value: Option<Expressions>,
+    line: u64,
 }
 
 impl ReturnStatement {
-    pub fn new(token: Token, return_value: Option<Expressions>) -> Self {
+    pub fn new(token: Token, return_value: Option<Expressions>, line: u64) -> Self {
         Self {
             token,
             return_value,
+            line,
+        }
+    }
+}
+
+impl Default for ReturnStatement {
+    fn default() -> Self {
+        Self {
+            token: Token::default(),
+            return_value: None,
+            line: 1,
         }
     }
 }

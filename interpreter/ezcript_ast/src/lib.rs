@@ -24,7 +24,7 @@ mod test {
         let program: Option<Program> = parser.parse_program();
 
         is_not_none!(program.as_ref());
-        is_instance(&program, Program::new(Vec::new()))
+        is_instance(&program, Program::new(Vec::new()));
     }
 
     #[test]
@@ -49,7 +49,7 @@ mod test {
             match statement {
                 statements::Statements::SetStatement(statement) => {
                     assert_eq!(statement.token_lexeme(), "set");
-                    is_instance(&Some(statement), Some(statements::SetStatement::default()))
+                    is_instance(&Some(statement), Some(statements::SetStatement::default()));
                 }
                 _ => continue,
             }
@@ -100,5 +100,35 @@ mod test {
         println!("{:?}", parser.errors());
 
         assert_eq!(parser.errors().len(), 1);
+    }
+
+    #[test]
+    fn test_return_statement() {
+        let source: &str = "
+            return 5
+            return foo
+        ";
+        let lexer: Lexer = Lexer::new(source.chars());
+        let mut parser: Parser = Parser::new(lexer);
+
+        let program: Option<Program> = parser.parse_program();
+        is_not_none!(program.as_ref());
+
+        let program = program.unwrap();
+
+        assert_eq!(program.statements.len(), 2);
+
+        for statement in program.statements.clone() {
+            match statement {
+                statements::Statements::ReturnStatement(statement) => {
+                    assert_eq!(statement.token_lexeme(), "return");
+                    is_instance(
+                        &Some(statement),
+                        Some(statements::ReturnStatement::default()),
+                    );
+                }
+                _ => continue,
+            }
+        }
     }
 }

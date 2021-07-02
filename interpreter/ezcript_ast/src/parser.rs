@@ -1,6 +1,6 @@
 use crate::ast::Program;
 use crate::expressions::Identifier;
-use crate::statements::{SetStatement, Statements};
+use crate::statements::{ReturnStatement, SetStatement, Statements};
 use ezcript_lexer::lexer::Lexer;
 use ezcript_lexer::tokens::{Token, TokenKind};
 use ezcript_result::{EzcriptError, Result};
@@ -13,7 +13,6 @@ pub struct Parser<'a> {
     current_token: Option<Token>,
     peek_token: Option<Token>,
     errors: Vec<Option<Result<()>>>,
-    line: u64,
 }
 
 impl<'a> Parser<'a> {
@@ -23,7 +22,6 @@ impl<'a> Parser<'a> {
             current_token: None,
             peek_token: None,
             errors: Vec::new(),
-            line: 1,
         };
         parser.advance_tokens();
         parser.advance_tokens();
@@ -62,7 +60,7 @@ impl<'a> Parser<'a> {
     fn err(&self, msg: &str) -> Option<Result<()>> {
         is_not_none!(self.current_token);
         Some(Err(EzcriptError::Parse(
-            self.line,
+            self.current_token.as_ref().unwrap().line,
             msg.to_string(),
             self.current_token.as_ref().unwrap().lexeme.clone(),
         )))
@@ -74,15 +72,41 @@ impl<'a> Parser<'a> {
             && self.current_token.as_ref().unwrap().lexeme == "set".to_string()
         {
             self.parse_let_statement()
+        } else if self.current_token.as_ref().unwrap().kind == TokenKind::Keyword
+            && self.current_token.as_ref().unwrap().lexeme == "return".to_string()
+        {
+            self.parse_return_statement()
         } else {
             None
         }
     }
 
+    fn parse_return_statement(&mut self) -> Option<Statements> {
+        is_not_none!(self.current_token.as_ref());
+        let mut return_statement = ReturnStatement::new(
+            self.current_token.as_ref().unwrap().clone(),
+            None,
+            self.current_token.as_ref().unwrap().line,
+        );
+
+        self.advance_tokens();
+
+        // TODO: Finish the parse expression later
+        while self.current_token.as_ref().unwrap().kind != TokenKind::NewLine {
+            self.advance_tokens();
+        }
+
+        Some(Statements::ReturnStatement(return_statement))
+    }
+
     fn parse_let_statement(&mut self) -> Option<Statements> {
         is_not_none!(self.current_token.as_ref());
-        let mut set_statement =
-            SetStatement::new(self.current_token.as_ref().unwrap().clone(), None, None);
+        let mut set_statement = SetStatement::new(
+            self.current_token.as_ref().unwrap().clone(),
+            None,
+            None,
+            self.current_token.as_ref().unwrap().line,
+        );
 
         if !self.expected_token(TokenKind::Identifier) {
             return None;
