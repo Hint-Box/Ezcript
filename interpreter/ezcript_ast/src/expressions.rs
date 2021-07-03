@@ -3,12 +3,12 @@ use ezcript_lexer::tokens::Token;
 use std::fmt;
 
 /// An enum that contain all expressions
-#[derive(Debug, PartialEq, Eq, Clone, Hash)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum Expressions {
-    Identifier,
-    Integer,
-    Float,
-    Boolean,
+    Identifier(Identifier),
+    Integer(Integer),
+    Float(Float),
+    Boolean(Boolean),
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash)]

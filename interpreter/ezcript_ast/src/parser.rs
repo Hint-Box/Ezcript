@@ -1,18 +1,31 @@
 use crate::ast::Program;
-use crate::expressions::Identifier;
+use crate::expressions::{Expressions, Identifier};
 use crate::statements::{ReturnStatement, SetStatement, Statements};
+use derivative::Derivative;
 use ezcript_lexer::lexer::Lexer;
 use ezcript_lexer::tokens::{Token, TokenKind};
 use ezcript_result::{EzcriptError, Result};
+use std::collections::HashMap;
+
+// Here we're defining aliases for some prefix and infix functions types
+type PrefixParseFn = Box<(dyn Fn() -> Option<Expressions> + 'static)>;
+type InfixParseFn<'a> = Box<(dyn Fn(&'a Expressions) -> Option<Expressions> + 'static)>;
+type PrefixParseFns = HashMap<TokenKind, PrefixParseFn>;
+type InfixParseFns<'a> = HashMap<TokenKind, InfixParseFn<'a>>;
 
 /// The Parser struct take a Lexer and then generate a program that generate an
 /// Abstract Syntax Tree
-#[derive(Debug)]
+#[derive(Derivative)]
+#[derivative(Debug)]
 pub struct Parser<'a> {
     lexer: Lexer<'a>,
     current_token: Option<Token>,
     peek_token: Option<Token>,
     errors: Vec<Option<Result<()>>>,
+    #[derivative(Debug = "ignore")]
+    prefix_parse_fns: PrefixParseFns,
+    #[derivative(Debug = "ignore")]
+    infix_parse_fns: InfixParseFns<'a>,
 }
 
 impl<'a> Parser<'a> {
@@ -22,7 +35,11 @@ impl<'a> Parser<'a> {
             current_token: None,
             peek_token: None,
             errors: Vec::new(),
+            prefix_parse_fns: HashMap::new(),
+            infix_parse_fns: HashMap::new(),
         };
+        parser.prefix_parse_fns = parser.register_prefix_fns();
+        parser.infix_parse_fns = parser.register_infix_fns();
         parser.advance_tokens();
         parser.advance_tokens();
 
@@ -83,7 +100,7 @@ impl<'a> Parser<'a> {
 
     fn parse_return_statement(&mut self) -> Option<Statements> {
         is_not_none!(self.current_token.as_ref());
-        let mut return_statement = ReturnStatement::new(
+        let return_statement = ReturnStatement::new(
             self.current_token.as_ref().unwrap().clone(),
             None,
             self.current_token.as_ref().unwrap().line,
@@ -165,5 +182,13 @@ impl<'a> Parser<'a> {
         }
         self.expected_token_error(kind);
         false
+    }
+
+    fn register_prefix_fns(&self) -> HashMap<TokenKind, PrefixParseFn> {
+        HashMap::new()
+    }
+
+    fn register_infix_fns(&self) -> HashMap<TokenKind, InfixParseFn<'a>> {
+        HashMap::new()
     }
 }

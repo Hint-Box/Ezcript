@@ -1,10 +1,11 @@
 pub mod ast;
-mod expressions;
+pub mod expressions;
 pub mod parser;
-mod statements;
+pub mod statements;
 
 #[macro_use]
 extern crate utils;
+extern crate lazy_static;
 
 #[cfg(test)]
 mod test {

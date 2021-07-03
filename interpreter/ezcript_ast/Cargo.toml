@@ -10,3 +10,5 @@ edition = "2018"
 ezcript_lexer = { path = "../ezcript_lexer" }
 ezcript_result = { path = "../ezcript_result" }
 utils = { path = "../../utils" }
+lazy_static = "1.4.0"
+derivative = "2.2.0"

@@ -9,7 +9,7 @@ pub trait ASTNode: fmt::Display {
 }
 
 /// Our general program that contain all the statements
-#[derive(Debug, Clone, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Program {
     pub statements: Vec<Statements>,
 }
