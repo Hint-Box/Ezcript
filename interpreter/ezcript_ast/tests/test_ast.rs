@@ -1,9 +1,7 @@
 use ezcript_ast::ast::Program;
 use ezcript_ast::expressions::{Expressions, Identifier, Integer};
-use ezcript_ast::parser::Parser;
 use ezcript_ast::statements::{ReturnStatement, SetStatement, Statements};
 use ezcript_lexer::tokens::{Literal, Token, TokenKind};
-use utils::is_instance;
 
 #[macro_use]
 extern crate utils;
@@ -49,7 +47,6 @@ fn test_ast_set_statement() {
 
 #[test]
 fn test_() {
-    let resource: &str = "return 0";
     let program: Option<Program> =
         Program::new(vec![Statements::ReturnStatement(ReturnStatement::new(
             Token {

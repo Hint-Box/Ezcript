@@ -1,5 +1,5 @@
 use crate::ast::ASTNode;
-use crate::expressions::{Boolean, Expressions, Float, Identifier, Integer, Null};
+use crate::expressions::{Expressions, Identifier, Null};
 use ezcript_lexer::tokens::Token;
 use std::fmt;
 
