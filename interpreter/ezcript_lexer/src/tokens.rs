@@ -4,24 +4,25 @@ use std::fmt;
 use std::hash::{Hash, Hasher};
 
 /// All the tokens that the language accept
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum TokenKind {
     Keyword,
-    Ident,
+    Identifier,
     Number,
     String,
     Float,
     Boolean,
     Null,
     Not,
+    NewLine,
+    Indent,
+    Dedent,
 
     // one char
     Plus,
     Minus,
     Star,
     Slash,
-    Indent,
-    Dedent,
     LParen,
     RParen,
     LBracket,
@@ -50,7 +51,6 @@ pub enum TokenKind {
     SlashEqual,
     PercentEqual,
     RArrow,
-    Illegal,
     Eof,
 }
 
@@ -63,7 +63,7 @@ impl TokenKind {
 }
 
 /// The Token structure, for create and manage the tokens from the Lexer
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Token {
     pub kind: TokenKind,
     pub lexeme: String,
@@ -99,7 +99,7 @@ impl fmt::Display for Token {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "Type: {:?}, Lexeme: {}, Literal: {:?} : [line {}]",
+            "Type: {:?}, Lexeme: '{}', Literal: {:?} : [line {}]",
             self.kind, self.lexeme, self.literal, self.line
         )
     }
@@ -177,6 +177,9 @@ lazy_static! {
     static ref RESERVED: HashMap<&'static str, TokenKind> = [
         ("set", TokenKind::Keyword),
         ("const", TokenKind::Keyword),
+        ("use", TokenKind::Keyword),
+        ("from", TokenKind::Keyword),
+        ("self", TokenKind::Keyword),
         ("true", TokenKind::Boolean),
         ("false", TokenKind::Boolean),
         ("if", TokenKind::Keyword),
@@ -190,6 +193,7 @@ lazy_static! {
         ("do", TokenKind::Keyword),
         ("while", TokenKind::Keyword),
         ("break", TokenKind::Keyword),
+        ("continue", TokenKind::Keyword),
         ("for", TokenKind::Keyword),
         ("each", TokenKind::Keyword),
         ("func", TokenKind::Keyword),
