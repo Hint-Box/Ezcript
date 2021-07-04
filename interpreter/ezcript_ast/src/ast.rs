@@ -28,6 +28,7 @@ impl ASTNode for Program {
             match &self.statements[0] {
                 Statements::SetStatement(statement) => statement.token_lexeme(),
                 Statements::ReturnStatement(statement) => statement.token_lexeme(),
+                Statements::ExpressionStatement(statement) => statement.token_lexeme(),
             };
         }
 
@@ -42,6 +43,7 @@ impl fmt::Display for Program {
             match statement {
                 Statements::SetStatement(statement) => out.push(statement.to_string()),
                 Statements::ReturnStatement(statement) => out.push(statement.to_string()),
+                Statements::ExpressionStatement(statement) => out.push(statement.to_string()),
             }
         }
 

@@ -57,6 +57,25 @@ impl Identifier {
     }
 }
 
+impl Default for Identifier {
+    fn default() -> Self {
+        Self {
+            token: Token::default(),
+            value: "".to_string(),
+            line: 1,
+        }
+    }
+}
+
+impl From<Expressions> for Identifier {
+    fn from(expression: Expressions) -> Self {
+        match expression {
+            Expressions::Identifier(identifier) => identifier,
+            _ => panic!("Is not a Identifier"),
+        }
+    }
+}
+
 impl ASTNode for Identifier {
     fn token_lexeme(&self) -> String {
         self.token.lexeme.clone()

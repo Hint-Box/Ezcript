@@ -11,14 +11,13 @@
 /// let text: String = String::from("Hola");
 /// is_instance(&text, String::new());
 /// ```
-pub fn is_instance<U, T>(_: &U, _: T) -> bool {
+pub fn is_instance<U, T>(_: &U, _: T) {
     let value = std::any::type_name::<U>();
     let real = std::any::type_name::<T>();
 
     if value != real {
         panic!("The value {} is not the same as value {}!", value, real);
     }
-    true
 }
 
 // =============================================================================

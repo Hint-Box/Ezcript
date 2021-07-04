@@ -46,7 +46,7 @@ fn test_ast_set_statement() {
 }
 
 #[test]
-fn test_() {
+fn test_ast_return_statement() {
     let program: Option<Program> =
         Program::new(vec![Statements::ReturnStatement(ReturnStatement::new(
             Token {

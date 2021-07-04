@@ -8,6 +8,7 @@ use std::fmt;
 pub enum Statements {
     SetStatement(SetStatement),
     ReturnStatement(ReturnStatement),
+    ExpressionStatement(ExpressionStatement),
 }
 
 /// The SetStatement will look like
@@ -81,9 +82,9 @@ impl fmt::Display for SetStatement {
 /// `return "hello"`
 #[derive(Debug, PartialEq, Clone)]
 pub struct ReturnStatement {
-    token: Token,
-    return_value: Option<Expressions>,
-    line: u64,
+    pub token: Token,
+    pub return_value: Option<Expressions>,
+    pub line: u64,
 }
 
 impl ReturnStatement {
@@ -129,5 +130,58 @@ impl fmt::Display for ReturnStatement {
             )),
         };
         write!(f, "{} {}", self.token_lexeme(), return_value)
+    }
+}
+
+#[derive(Debug, PartialEq, Clone)]
+pub struct ExpressionStatement {
+    pub token: Token,
+    pub expression: Option<Expressions>,
+    pub line: u64,
+}
+
+impl ExpressionStatement {
+    pub fn new(token: Token, expression: Option<Expressions>, line: u64) -> Self {
+        Self {
+            token,
+            expression,
+            line,
+        }
+    }
+}
+
+impl Default for ExpressionStatement {
+    fn default() -> Self {
+        Self {
+            token: Token::default(),
+            expression: Some(Expressions::Identifier(Identifier::default())),
+            line: 1,
+        }
+    }
+}
+
+impl ASTNode for ExpressionStatement {
+    fn token_lexeme(&self) -> String {
+        self.token.lexeme.clone()
+    }
+}
+
+impl fmt::Display for ExpressionStatement {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let lexeme = self.token_lexeme();
+        // We use the trait ASTNode like a type because we want all the types tha implement the
+        // trait.
+        let expression: Box<dyn ASTNode> = match self.expression.as_ref() {
+            Some(Expressions::Identifier(identifier)) => Box::new(identifier.clone()),
+            Some(Expressions::Integer(integer)) => Box::new(integer.clone()),
+            Some(Expressions::Float(float)) => Box::new(float.clone()),
+            Some(Expressions::Boolean(boolean)) => Box::new(boolean.clone()),
+            None => Box::new(Null::new(
+                self.token.clone(),
+                lexeme.as_str(),
+                self.token.line,
+            )),
+        };
+        write!(f, "{}", expression.to_string())
     }
 }
